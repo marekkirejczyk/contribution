@@ -1,0 +1,136 @@
+{
+  "dapp": {
+    "app": {
+      "title": "melonport"
+      , "buttons": {
+        "home": "Home"
+        , "signin": "Sign in"
+        , "signup": "Register"
+        , "signout": "Sign out"
+        , "overview": "Overview"
+        , "settings": "Settings"
+        , "wallet": "Wallet"
+        , "accounts": "Accounts"
+        , "platform": "Platform"
+        , "explore": "Explore"
+        , "trading": "Trading"
+        , "orders": "Orders"
+        , "charts": "Charts"
+        , "trade": "Trade"
+        , "blotter": "Blotter"
+        , "exchange": "Exchange"
+        , "create": "New Portfolio"
+        , "portfolio": "Portfolio"
+        , "strategy": "Strategy"
+      }
+      , "headers": {
+        "identicon": "Identicon"
+        , "address": "Address"
+        , "status": "Status"
+        , "open": "Open"
+        , "export": "Export"
+        , "invest": "Invest"
+        , "redeem": "Redeem"
+        , "delete": "Delete"
+        , "ownerAddress": "Owner"
+        , "portfolioManager": "Manager"
+        , "portfolioAddress": "Portfolio"
+        , "portfolioName": "Name"
+        , "portfolioPx": "Share Price"
+        , "notional": "Notional Investment"
+        , "investment": "Investment"
+        , "intraday": "DTD"
+        , "intramonth": "MTD"
+        , "intrayear": "YTD"
+        , "balance": "Balance"
+        , "nav": "NAV"
+        , "holdingamount": "Holdings"
+        , "holdingpercentile": "%ile"
+        , "performanceamount": "Performance"
+        , "performancpercentile": "%ile"
+        , "shareprice": "Share Price"
+        , "performance": "Performance"
+        , "account": "Account"
+        , "listening": "Listening"
+        , "peerCount": "Peer Count"
+        , "blockNumber": "Block Numbr"
+        , "defaultBlock": "Default Block"
+        , "setup": "Set up"
+        , "gasPrice": "Gas Price"
+        , "buying": "Buying"
+        , "selling": "Selling"
+        , "price": "Price"
+        , "volume": "Volume"
+      }
+      , "signin": "Sign in to view your personal overview."
+      , "copyright": "Copyright © Melonport AG 2016. All Rights Reserved."
+    }
+    , "welcome": {
+      "header": "melonport"
+      , "description": "A portal to decentralised asset management"
+    }
+    , "agreement": {
+      "header": "Disclaimer"
+      , "description": "Please agree to the following disclaimer before you continue."
+    }
+    , "wallet": {
+      "header": "Wallet"
+      , "description": "Ethereum light wallets"
+    }
+    , "blotter": {
+      "header": "Portfolio Blotter"
+      , "description": "Detailed information of selected portfolio"
+    }
+    , "portfolio": {
+      "header": "Portfolio"
+      , "description": "Overview of portfolio performances"
+    }
+    , "exchange": {
+      "header": "Exchange"
+      , "description": "Trade your assets on a decentralized exchange"
+    }
+    , "explore": {
+      "header": "Explore"
+      , "description": "Explore the melon protocol in its depths"
+    }
+    , "create": {
+      "header": "New Portfolio"
+      , "description": "Customize and create a new portfolio"
+    }
+    , "components": {
+      "balance": {
+        "header": "Balance"
+        , "total": "Total Balance"
+      }
+      , "portfolio": {
+        "header": "Portfolio"
+        , "description": "Click on one of your portfolios to place a trade, define a strategy and/or see the trade blotter."
+        , "create": "Create"
+        , "deployed": "The contract was deployed to this address"
+      }
+      , "create": {
+        "header": "Set up a new portfolio"
+        , "description": "Create a new portfolio and deploy it to the Ethereum blockchain."
+        , "create": "Create"
+        , "deploy": "Create New Portfolio"
+        , "deployed": "The contract was deployed to this address"
+        , "placeholder": "Number To Multiply"
+      }
+      , "wallet": {
+        "header": "Wallet"
+        , "description": "These are your Lightwallets."
+        , "wellDescriptionStart": "Start by creating your own wallet."
+        , "wellDescription": "Click on the lock symbol to unlock your wallet."
+        , "create": "Create"
+        , "import": "Import"
+        , "refresh": "Refresh"
+        , "manage": "Manage"
+        , "deployed": "The contract was deployed to this address"
+      }
+      , "listfunds": {
+        "header": "Discoveries made"
+        , "description": "This is a list of melon portfolios."
+      }
+    }
+  }
+}
