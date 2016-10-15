@@ -5,9 +5,10 @@
     "start": "meteor run"
   },
   "dependencies": {
-    "meteor-node-stubs": "~0.2.0",
     "async": "^2.0.1",
     "bignumber.js": "^2.4.0",
-    "js-sha256": "^0.3.2"
+    "js-sha256": "^0.3.2",
+    "meteor-node-stubs": "~0.2.0",
+    "web3": "^0.17.0-beta"
   }
 }
