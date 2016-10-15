@@ -1,0 +1,47 @@
+<template name="network_summary">
+  <div class="buysellads-header center-on-small-only">
+    <!-- Network Summary -->
+    <ul>
+      <li class="truncate text-light">Network Summary</li>
+
+      <!-- Blockchain Connection -->
+      <li> Status:
+        {{#if isConnected}}
+          <a class="truncate green-text text-lighten-2">Connected</a>
+        {{else}}
+          <a class="truncate red-text text-lighten-2">Not connected</a>
+        {{/if}}
+      </li>
+
+      <!-- Blockchain Network -->
+      <li> Network:
+        {{#if isConnected}}
+          {{#if isTestnet}}
+            <a class="truncate green-text text-lighten-2">Testnet</a>
+          {{else}}
+            <a class="truncate red-text text-lighten-2">Not offical Testnet!</a>
+          {{/if}}
+        {{else}}
+          <a class="truncate red-text text-lighten-2">Not connected</a>
+        {{/if}}
+      </li>
+
+      <!-- Block Status -->
+      <li> Current Block:
+        {{#if isConnected}}
+          {{#if isSynced}}
+            <a class="truncate green-text text-lighten-2">{{currentBlock}}</a>
+          {{else}}
+            <a class="truncate blue-text text-lighten-2 center">{{snycingCurrentBlock}}/{{snycingHighestBlock}}:
+              <div class="progress">
+                <div class="determinate" style="width: {{snychingBlockProgress}}%"></div>
+              </div>
+            </a>
+          {{/if}}
+        {{else}}
+          <a class="truncate red-text text-lighten-2">Not connected</a>
+        {{/if}}
+      </li>
+    </ul>
+  </div>
+</template>

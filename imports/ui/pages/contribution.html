@@ -5,25 +5,47 @@
     <div class="container">
       <div class="row center">
         <div class="col s12 m9 offset-m1 l8 offset-l2">
-          <h1 class="header center-on-small-only blue-grey-text text-lighten-2">Contribution</h1>
-          <h4 class ="center-on-small-only light">Please read carefully and thoroughly.</h4>
+          <h1 class="header center-on-small-only blue-grey-text text-lighten-4">Contribution</h1>
+          {{#unless isTermsAccepted}}
+            <h4 class ="center-on-small-only light">Please read carefully and thouroughly.</h4>
+          {{/unless}}
+          {{#if isTermsAccepted}}
+          {{#unless isAllAccepted}}
+            <h4 class ="center-on-small-only light">We want you to understand what you're in for.</h4>
+          {{/unless}}
+          {{/if}}
+          {{#if isAllAccepted}}
+            <h4 class ="center-on-small-only light">The time has come for you to decide.</h4>
+          {{/if}}
         </div>
       </div>
     </div>
   </div>
 
   <!-- Terms Accepted -->
+  {{#unless isTermsAccepted}}
   <div class="container">
     <div class="row">
       <div class="col s12 m9 offset-m1 l8 offset-l2">
-        <div class="card {{#if isTermsAccepted}}grey lighten-4{{/if}}">
+        <div class="card">
           <div class="card-content">
-            <span class="card-title">Agreeing to Terms</span>
+            <span class="card-title">Agreeing to Terms and Conditions</span>
+            <br/><br/><br/>
+            <p>I hereby confirm to have read and understood the following documents:</p>
+            <ul class="collection">
+              <li class="collection-item">
+                <input type="checkbox" class="filled-in" id="melon-terms" />
+                <label for="melon-terms" class="grey-text text-darken-3">Melon Contribution Terms
+                  <a href="#" onclick="window.open('melonprotocol.pdf', '_blank', 'fullscreen=yes'); return false;">(read)</a>
+                </label>
+              </li>
+            </ul>
+            <br/>
             <p>I hereby confirm to be:</p>
             <ul class="collection">
               <li class="collection-item">
                 <input type="checkbox" class="filled-in" id="citizen" />
-                <label for="citizen">Non US citizen nor signing on behalf of a US citzien</label>
+                <label for="citizen" class="grey-text text-darken-3">Non US citizen nor signing on behalf of a US citzien.</label>
               </li>
             </ul>
           </div>
@@ -31,32 +53,36 @@
       </div>
     </div>
   </div>
+  {{/unless}}
 
   <!-- Documents Read -->
   {{#if isTermsAccepted}}
+  {{#unless isAllAccepted}}
   <div class="container">
     <div class="row">
       <div class="col s12 m9 offset-m1 l8 offset-l2">
-        <div class="card {{#if isDocumentsRead}}grey lighten-4{{/if}}">
+        <div class="card">
           <div class="card-content">
             <span class="card-title">Read all Documents</span>
             <p>I hereby confirm to have read and understood all of the following documents:</p>
             <ul class="collection">
               <li class="collection-item">
                 <input type="checkbox" class="filled-in" id="melon-whitepaper" />
-                <label for="melon-whitepaper"><a href="#" onclick="window.open('melonprotocol.pdf', '_blank', 'fullscreen=yes'); return false;">Melon Protocol Whitepaper</a></label>
-              </li>
-              <li class="collection-item">
-                <input type="checkbox" class="filled-in" id="melon-terms" />
-                <label for="melon-terms"><a href="#" onclick="window.open('melonprotocol.pdf', '_blank', 'fullscreen=yes'); return false;">Melon Contribution Terms</a></label>
+                <label for="melon-whitepaper" class="grey-text text-darken-3">Melon Protocol Whitepaper
+                  <a href="#" onclick="window.open('melonprotocol.pdf', '_blank', 'fullscreen=yes'); return false;">(read)</a>
+                </label>
               </li>
               <li class="collection-item">
                 <input type="checkbox" class="filled-in" id="melon-ethcore-service-agreement" />
-                <label for="melon-ethcore-service-agreement"><a href="#" onclick="window.open('melonprotocol.pdf', '_blank', 'fullscreen=yes'); return false;">Ethcore Melon Service Agreement</a></label>
+                <label for="melon-ethcore-service-agreement" class="grey-text text-darken-3">Ethcore Melon Service Agreement
+                  <a href="#" onclick="window.open('melonprotocol.pdf', '_blank', 'fullscreen=yes'); return false;">(read)</a>
+                </label>
               </li>
               <li class="collection-item">
                 <input type="checkbox" class="filled-in" id="ethcore-whitepaper" />
-                <label for="ethcore-whitepaper"><a href="#" onclick="window.open('paper.pdf', '_blank', 'fullscreen=yes'); return false;">Ethcore Blockchain Whitepaper</a></label>
+                <label for="ethcore-whitepaper" class="grey-text text-darken-3">Ethcore Project Whitepaper
+                  <a href="#" onclick="window.open('melonprotocol.pdf', '_blank', 'fullscreen=yes'); return false;">(read)</a>
+                </label>
               </li>
             </ul>
           </div>
@@ -64,6 +90,7 @@
       </div>
     </div>
   </div>
+  {{/unless}}
   {{/if}}
 
   <!-- I want signature -->

@@ -30,10 +30,6 @@ kadira:blaze-layout           # Rendering
 # Internationalisation
 tap:i18n
 
-# Email subscription
-miro:mailchimp
-
 check@1.2.3
 underscore@1.0.9
-themeteorchef:jquery-validation # For validation
 session@1.1.6

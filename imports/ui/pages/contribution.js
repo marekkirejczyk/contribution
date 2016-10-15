@@ -56,10 +56,10 @@ Template.contribution.helpers({
     return Session.get('coinBase');
   },
   isTermsAccepted() {
-    return Session.get('citizenChecked');
+    return Session.get('citizenChecked') && Session.get('melon-terms') ;
   },
   isDocumentsRead() {
-    return Session.get('melon-whitepaper') && Session.get('melon-terms') && Session.get('melon-ethcore-service-agreement') && Session.get('ethcore-whitepaper');
+    return Session.get('melon-whitepaper') && Session.get('melon-ethcore-service-agreement') && Session.get('ethcore-whitepaper');
   },
   isAllAccepted() {
     const numAllTerms = 5;
@@ -76,8 +76,7 @@ Template.contribution.helpers({
 
 Template.contribution.onRendered(function contributionOnRendered() {
   // initialize
-  $('input#input_text').characterCounter();
-  $('select').material_select();
+  this.$('input#input_text').characterCounter();
 });
 
 
