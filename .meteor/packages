@@ -33,7 +33,6 @@ tap:i18n
 # Email subscription
 miro:mailchimp
 
-
 check
 underscore
 themeteorchef:jquery-validation # For validation

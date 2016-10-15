@@ -3,12 +3,16 @@ import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
 
-var async = require('async');
-var assert = require('assert');
-var BigNumber = require('bignumber.js');
+import { async } from 'async';
+import { assert } from 'assert';
+import { BigNumber } from 'bignumber.js';
 var sha256 = require('js-sha256').sha256;
 
 import './contribution.html';
+
+
+const SIGNER = '0xcc08de98cc59a6c2b3d73697a8528c6cd2c2c2e6';
+
 
 function sign(web3, address, value, callback) {
   web3.eth.sign(address, value, (err, sig) => {
@@ -35,34 +39,80 @@ function sign(web3, address, value, callback) {
   });
 }
 
+
 Template.contribution.onCreated(function walletManageOnCreated() {
-});
-
-Template.contribution.helpers({
-});
-
-Template.contribution.onRendered(function contributionOnRendered() {
-  $('.modal-trigger').leanModal({
-    dismissible: false,
-    opacity: 0.5, // Opacity of modal background
-    in_duration: 300, // Transition in duration
-    out_duration: 200, // Transition out duration
+  web3.eth.getCoinbase(function(error, result){
+      if(!error) {
+        Session.set('coinBase', result);
+      }
+      else
+          console.error(error);
   });
 });
 
-Template.contribution.events({
-  'submit .i-am'(event) {
-    // Prevent default browser form submit
-    event.preventDefault();
 
-    // Get value from form element
-    const target = event.target;
+Template.contribution.helpers({
+  getCoinbase() {
+    return Session.get('coinBase');
   },
-  'submit .i-have-read'(event) {
+  isTermsAccepted() {
+    return Session.get('citizenChecked');
+  },
+  isDocumentsRead() {
+    return Session.get('melon-whitepaper') && Session.get('melon-terms') && Session.get('melon-ethcore-service-agreement') && Session.get('ethcore-whitepaper');
+  },
+  isAllAccepted() {
+    const numAllTerms = 5;
+    const numAccTerms =
+      Session.get('citizenChecked') +
+      Session.get('melon-whitepaper') +
+      Session.get('melon-terms') +
+      Session.get('melon-ethcore-service-agreement') +
+      Session.get('ethcore-whitepaper');
+    return numAccTerms == numAllTerms;
+  },
+});
+
+
+Template.contribution.onRendered(function contributionOnRendered() {
+  // initialize
+  $('input#input_text').characterCounter();
+  $('select').material_select();
+});
+
+
+Template.contribution.events({
+  'click input'(event, template) {
+    for (var i = 0; i < template.$('input').length; ++i) {
+      if (template.$('input')[i].id == 'citizen') {
+        Session.set('citizenChecked', template.$('input')[i].checked);
+      } else if (template.$('input')[i].id == 'melon-whitepaper') {
+        Session.set('melon-whitepaper', template.$('input')[i].checked);
+      } else if (template.$('input')[i].id == 'melon-terms') {
+        Session.set('melon-terms', template.$('input')[i].checked);
+      } else if (template.$('input')[i].id == 'melon-ethcore-service-agreement') {
+        Session.set('melon-ethcore-service-agreement', template.$('input')[i].checked);
+      } else if (template.$('input')[i].id == 'ethcore-whitepaper') {
+        Session.set('ethcore-whitepaper', template.$('input')[i].checked);
+      }
+    }
+  },
+  'submit .signature'(event, instance) {
     // Prevent default browser form submit
     event.preventDefault();
 
     // Get value from form element
     const target = event.target;
+    const input_address = target.input_text.value
+    console.log(target.input_text.value);
+
+    const hash = sha256(new Buffer(input_address.slice(2),'hex'));
+    sign(web3, SIGNER, hash, (err, sig) => {
+      console.log(
+        sig.v +
+        sig.r +
+        sig.s
+      )
+    });
   },
 });
