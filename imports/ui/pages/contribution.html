@@ -1,11 +1,11 @@
 <template name="contribution">
 
   <!-- Index-banner -->
-  <div class="section blue-grey darken-2 white-text" id="index-banner">
+  <div class="section indigo lighten-5" id="index-banner">
     <div class="container">
       <div class="row center">
         <div class="col s12 m9 offset-m1 l8 offset-l2">
-          <h1 class="header center-on-small-only blue-grey-text text-lighten-4">Contribution</h1>
+          <h1 class="header center-on-small-only indigo lighten-5 grey-text">Contribution</h1>
           {{#unless isTermsAccepted}}
             <h4 class ="center-on-small-only light">Please read carefully and thouroughly.</h4>
           {{/unless}}
@@ -104,11 +104,16 @@
               <span class="card-title">Confirming with Signature</span>
               <p>I hereby confirm to have read and understood all of the above points.</p>
               <div class="row">
-                <div class="input-field col s12">
-                  <input id="input_text" type="text" length="42">
-                  <label for="input_text">Contribution Address</label>
+                <div class="input col s12">
+                  <label for="contribution_address">Contribution Address</label>
+                  <input placeholder="{{getCoinbase}}" id="contribution_address" type="text" length="42">
                 </div>
               </div>
+              {{#if isECParamsSet}}
+                <p> Signature v is: {{getSigV}}</p>
+                <p> Signature r is: {{getSigR}}</p>
+                <p> Signature s is: {{getSigS}}</p>
+              {{/if}}
             </div>
             <div class="card-action">
               <button type="submit" class="btn btn-primary">I confirm</button>

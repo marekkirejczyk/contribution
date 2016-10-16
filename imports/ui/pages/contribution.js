@@ -41,6 +41,7 @@ function sign(web3, address, value, callback) {
 
 
 Template.contribution.onCreated(function walletManageOnCreated() {
+  Session.set('isECParamsSet', false);
   web3.eth.getCoinbase(function(error, result){
       if(!error) {
         Session.set('coinBase', result);
@@ -70,6 +71,18 @@ Template.contribution.helpers({
       Session.get('melon-ethcore-service-agreement') +
       Session.get('ethcore-whitepaper');
     return numAccTerms == numAllTerms;
+  },
+  isECParamsSet() {
+    return Session.get('isECParamsSet');
+  },
+  getSigV() {
+    return Session.get('sig.v');
+  },
+  getSigR() {
+    return Session.get('sig.r');
+  },
+  getSigS() {
+    return Session.get('sig.s');
   },
 });
 
@@ -107,11 +120,11 @@ Template.contribution.events({
 
     const hash = sha256(new Buffer(input_address.slice(2),'hex'));
     sign(web3, SIGNER, hash, (err, sig) => {
-      console.log(
-        sig.v +
-        sig.r +
-        sig.s
-      )
+      console.log(sig.v);
+      Session.set('sig.v', sig.v);
+      Session.set('sig.r', sig.r);
+      Session.set('sig.s', sig.s);
+      Session.set('isECParamsSet', true);
     });
   },
 });
