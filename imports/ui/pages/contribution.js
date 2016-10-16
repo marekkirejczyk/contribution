@@ -11,7 +11,7 @@ var sha256 = require('js-sha256').sha256;
 import './contribution.html';
 
 
-const SIGNER = '0xcc08de98cc59a6c2b3d73697a8528c6cd2c2c2e6';
+const SIGNER = '0x7ed7d68befa84c9e955e183379e1b33760858263';
 
 
 function sign(web3, address, value, callback) {
@@ -40,7 +40,7 @@ function sign(web3, address, value, callback) {
 }
 
 
-Template.contribution.onCreated(function walletManageOnCreated() {
+Template.contribution.onCreated(function contributionOnCreated() {
   Session.set('isECParamsSet', false);
   web3.eth.getCoinbase(function(error, result){
       if(!error) {
@@ -119,6 +119,8 @@ Template.contribution.events({
     console.log(target.input_text.value);
 
     const hash = sha256(new Buffer(input_address.slice(2),'hex'));
+
+    //TODO Error MSG
     sign(web3, SIGNER, hash, (err, sig) => {
       console.log(sig.v);
       Session.set('sig.v', sig.v);

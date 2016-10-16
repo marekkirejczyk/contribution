@@ -1,4 +1,4 @@
-import { web3 } from '/imports/lib/ethereum/web3.js'
+import { web3 } from '/imports/lib/client/ethereum/web3.js'
 
 // Load global components
 import '/imports/ui/components/summary/network_summary.js';
