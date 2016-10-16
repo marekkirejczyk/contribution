@@ -1,4 +1,5 @@
 <template name="contribution">
+  <script type="text/javascript" async src="https://platform.twitter.com/widgets.js"></script>
 
   <!-- Index-banner -->
   <div class="section indigo lighten-5" id="index-banner">
@@ -30,7 +31,7 @@
         <div class="card">
           <div class="card-content">
             <span class="card-title">Agreeing to Terms and Conditions</span>
-            <br/><br/><br/>
+            <br/><br/>
             <p>I hereby confirm to have read and understood the following documents:</p>
             <ul class="collection">
               <li class="collection-item">
@@ -40,7 +41,6 @@
                 </label>
               </li>
             </ul>
-            <br/>
             <p>I hereby confirm to be:</p>
             <ul class="collection">
               <li class="collection-item">
@@ -64,6 +64,7 @@
         <div class="card">
           <div class="card-content">
             <span class="card-title">Read all Documents</span>
+            <br/><br/>
             <p>I hereby confirm to have read and understood all of the following documents:</p>
             <ul class="collection">
               <li class="collection-item">
@@ -74,7 +75,7 @@
               </li>
               <li class="collection-item">
                 <input type="checkbox" class="filled-in" id="melon-ethcore-service-agreement" />
-                <label for="melon-ethcore-service-agreement" class="grey-text text-darken-3">Ethcore Melon Service Agreement
+                <label for="melon-ethcore-service-agreement" class="grey-text text-darken-3">Melon Ethcore Service Agreement
                   <a href="#" onclick="window.open('melonprotocol.pdf', '_blank', 'fullscreen=yes'); return false;">(read)</a>
                 </label>
               </li>
@@ -102,6 +103,7 @@
           <div class="card">
             <div class="card-content">
               <span class="card-title">Confirming with Signature</span>
+              <br/><br/>
               <p>I hereby confirm to have read and understood all of the above points.</p>
               <div class="row">
                 <div class="input col s12">
@@ -113,6 +115,8 @@
                 <p> Signature v is: {{getSigV}}</p>
                 <p> Signature r is: {{getSigR}}</p>
                 <p> Signature s is: {{getSigS}}</p>
+                <p> Thanks for contributing and being a part of the melon project. </p>
+                <p> <a href="https://twitter.com/intent/tweet?text=I+am+a+part+of+the+%F0%9F%8D%89+revolution&via=melon_project">Now brag a little.</a> </p>
               {{/if}}
             </div>
             <div class="card-action">
