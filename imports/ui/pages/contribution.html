@@ -5,17 +5,17 @@
     <div class="container">
       <div class="row center">
         <div class="col s12 m9 offset-m1 l8 offset-l2">
-          <h1 class="header center-on-small-only indigo lighten-5 grey-text">Contribution</h1>
+          <h1 class="header center-on-small-only indigo lighten-5 grey-text text-lighten-4">Contribution</h1>
           {{#unless isTermsAccepted}}
-            <h4 class ="center-on-small-only light">Please read carefully and thouroughly.</h4>
+            <h4 class ="center-on-small-only light grey-text text-lighten-1">Please read carefully and thouroughly.</h4>
           {{/unless}}
           {{#if isTermsAccepted}}
           {{#unless isAllAccepted}}
-            <h4 class ="center-on-small-only light">We want you to understand what you're in for.</h4>
+            <h4 class ="center-on-small-only light grey-text text-lighten-1">We want you to understand what you're in for.</h4>
           {{/unless}}
           {{/if}}
           {{#if isAllAccepted}}
-            <h4 class ="center-on-small-only light">The time has come for you to decide.</h4>
+            <h4 class ="center-on-small-only light grey-text text-lighten-1">The time has come for you to decide.</h4>
           {{/if}}
         </div>
       </div>
