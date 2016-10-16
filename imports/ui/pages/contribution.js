@@ -10,7 +10,7 @@ var sha256 = require('js-sha256').sha256;
 
 import './contribution.html';
 
-
+// TODO signing server side
 const SIGNER = '0x7ed7d68befa84c9e955e183379e1b33760858263';
 
 
@@ -88,8 +88,8 @@ Template.contribution.helpers({
 
 
 Template.contribution.onRendered(function contributionOnRendered() {
-  // initialize
-  this.$('input#input_text').characterCounter();
+  // Initialize Material Components
+  this.$('input#contribution_address').characterCounter();
 });
 
 
@@ -115,18 +115,21 @@ Template.contribution.events({
 
     // Get value from form element
     const target = event.target;
-    const input_address = target.input_text.value
-    console.log(target.input_text.value);
+    const input_address = target.contribution_address.value
+    const hash = '0x' + sha256(new Buffer(input_address.slice(2),'hex'));
 
-    const hash = sha256(new Buffer(input_address.slice(2),'hex'));
-
-    //TODO Error MSG
+    // Server (=signer) address signs off contribution address
     sign(web3, SIGNER, hash, (err, sig) => {
-      console.log(sig.v);
-      Session.set('sig.v', sig.v);
-      Session.set('sig.r', sig.r);
-      Session.set('sig.s', sig.s);
-      Session.set('isECParamsSet', true);
+      if (!err) {
+        console.log(sig);
+        console.log(err);
+        Session.set('sig.v', sig.v);
+        Session.set('sig.r', sig.r);
+        Session.set('sig.s', sig.s);
+        Session.set('isECParamsSet', true);
+      } else {
+        alert('Ethereum node seems to be down, please contact: team@melonport.com. Thanks.');
+      }
     });
   },
 });
