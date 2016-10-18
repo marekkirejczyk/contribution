@@ -5,16 +5,15 @@ import { BlazeLayout } from 'meteor/kadira:blaze-layout';
 import '../../ui/layouts/main.js';
 import '../../ui/layouts/header.js';
 import '../../ui/layouts/footer.js';
-import '../../ui/pages/terms.js';
 import '../../ui/pages/contribution.js';
 
 // Default route
 FlowRouter.route('/', {
-  name: 'terms',
+  name: 'contribution',
   action() {
     BlazeLayout.render('layout_main', {
       // nav: 'layout_header',
-      main: 'terms',
+      main: 'contribution',
       // footer: 'layout_footer',
     });
   },
