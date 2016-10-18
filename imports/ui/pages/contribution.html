@@ -2,131 +2,42 @@
   <script type="text/javascript" async src="https://platform.twitter.com/widgets.js"></script>
 
   <!-- Index-banner -->
-  <div class="section indigo lighten-5" id="index-banner">
+  <div class="section indigo lighten-4" id="index-banner">
     <div class="container">
       <div class="row center">
         <div class="col s12 m9 offset-m1 l8 offset-l2">
-          <h1 class="header center-on-small-only indigo lighten-5 grey-text text-lighten-4">Contribution</h1>
+          <h1 class="header center-on-small-only grey-text text-lighten-4">Contribution</h1>
           {{#unless isTermsAccepted}}
-            <h4 class ="center-on-small-only light grey-text text-lighten-1">Please read carefully and thouroughly.</h4>
+            <h4 class ="center-on-small-only light grey-text text-lighten-5">Please read carefully and thouroughly.</h4>
           {{/unless}}
           {{#if isTermsAccepted}}
           {{#unless isAllAccepted}}
-            <h4 class ="center-on-small-only light grey-text text-lighten-1">We want you to understand what you're in for.</h4>
+            <h4 class ="center-on-small-only light grey-text text-lighten-5">We want you to understand what you're in for.</h4>
           {{/unless}}
           {{/if}}
           {{#if isAllAccepted}}
-            <h4 class ="center-on-small-only light grey-text text-lighten-1">The time has come for you to decide.</h4>
+            <h4 class ="center-on-small-only light grey-text text-lighten-5">The time has come for you to decide.</h4>
           {{/if}}
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Terms Accepted -->
-  {{#unless isTermsAccepted}}
-  <div class="container">
-    <div class="row">
-      <div class="col s12 m9 offset-m1 l8 offset-l2">
-        <div class="card">
-          <div class="card-content">
-            <span class="card-title">Agreeing to Terms and Conditions</span>
-            <br/><br/>
-            <p>I hereby confirm to have read and understood the following documents:</p>
-            <ul class="collection">
-              <li class="collection-item">
-                <input type="checkbox" class="filled-in" id="melon-terms" />
-                <label for="melon-terms" class="grey-text text-darken-3">Melon Contribution Terms
-                  <a href="#" onclick="window.open('melonprotocol.pdf', '_blank', 'fullscreen=yes'); return false;">(read)</a>
-                </label>
-              </li>
-            </ul>
-            <p>I hereby confirm to be:</p>
-            <ul class="collection">
-              <li class="collection-item">
-                <input type="checkbox" class="filled-in" id="citizen" />
-                <label for="citizen" class="grey-text text-darken-3">Non US citizen nor signing on behalf of a US citzien.</label>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  {{/unless}}
-
-  <!-- Documents Read -->
-  {{#if isTermsAccepted}}
-  {{#unless isAllAccepted}}
-  <div class="container">
-    <div class="row">
-      <div class="col s12 m9 offset-m1 l8 offset-l2">
-        <div class="card">
-          <div class="card-content">
-            <span class="card-title">Read all Documents</span>
-            <br/><br/>
-            <p>I hereby confirm to have read and understood all of the following documents:</p>
-            <ul class="collection">
-              <li class="collection-item">
-                <input type="checkbox" class="filled-in" id="melon-whitepaper" />
-                <label for="melon-whitepaper" class="grey-text text-darken-3">Melon Protocol Whitepaper
-                  <a href="#" onclick="window.open('melonprotocol.pdf', '_blank', 'fullscreen=yes'); return false;">(read)</a>
-                </label>
-              </li>
-              <li class="collection-item">
-                <input type="checkbox" class="filled-in" id="melon-ethcore-service-agreement" />
-                <label for="melon-ethcore-service-agreement" class="grey-text text-darken-3">Melon Ethcore Service Agreement
-                  <a href="#" onclick="window.open('melonprotocol.pdf', '_blank', 'fullscreen=yes'); return false;">(read)</a>
-                </label>
-              </li>
-              <li class="collection-item">
-                <input type="checkbox" class="filled-in" id="ethcore-whitepaper" />
-                <label for="ethcore-whitepaper" class="grey-text text-darken-3">Ethcore Project Whitepaper
-                  <a href="#" onclick="window.open('melonprotocol.pdf', '_blank', 'fullscreen=yes'); return false;">(read)</a>
-                </label>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  {{/unless}}
-  {{/if}}
-
   <!-- I want signature -->
-  {{#if isAllAccepted}}
   <div class="container">
     <div class="row">
       <div class="col s12 m9 offset-m1 l8 offset-l2">
         <form class="signature">
-          <div class="card">
-            <div class="card-content">
-              <span class="card-title">Confirming with Signature</span>
-              <br/><br/>
-              <p>I hereby confirm to have read and understood all of the above points.</p>
-              <div class="row">
-                <div class="input col s12">
-                  <label for="contribution_address">Contribution Address</label>
-                  <input placeholder="{{getCoinbase}}" id="contribution_address" type="text" length="42">
-                </div>
-              </div>
-              {{#if isECParamsSet}}
-                <p> Signature v is: {{getSigV}}</p>
-                <p> Signature r is: {{getSigR}}</p>
-                <p> Signature s is: {{getSigS}}</p>
-                <p> Thanks for contributing and being a part of the melon project. </p>
-                <p> <a href="https://twitter.com/intent/tweet?text=I+am+a+part+of+the+%F0%9F%8D%89+revolution&via=melon_project">Now brag a little.</a> </p>
-              {{/if}}
-            </div>
-            <div class="card-action">
-              <button type="submit" class="btn btn-primary">I confirm</button>
-            </div>
-          </div>
+          <h4>Results</h4>
+          <p>With these three parameters you can contribute to the Melon/PRIVATE Project.</p>
+          {{#if isECParamsSet}}
+            <p> Signature v is: {{getSigV}}</p>
+            <p> Signature r is: {{getSigR}}</p>
+            <p> Signature s is: {{getSigS}}</p>
+            <p> Thanks for contributing and being a part of the melon project. </p>
+          {{/if}}
         </form>
       </div>
     </div>
   </div>
-  {{/if}}
-
 </template>
