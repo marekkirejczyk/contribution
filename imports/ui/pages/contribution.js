@@ -9,6 +9,8 @@ import { assert } from 'assert';
 import { BigNumber } from 'bignumber.js';
 var sha256 = require('js-sha256').sha256;
 
+import web3 from '/imports/lib/client/ethereum/web3.js'
+
 import './contribution.html';
 
 // TODO signing server side
@@ -43,19 +45,12 @@ function sign(web3, address, value, callback) {
 
 Template.contribution.onCreated(function contributionOnCreated() {
   Session.set('isECParamsSet', false);
-  web3.eth.getCoinbase((error, result) => {
-    if(!error) {
-      Session.set('coinBase', result);
-    } else {
-      console.error(error);
-    }
-  });
 });
 
 
 Template.contribution.helpers({
-  getCoinbase() {
-    return Session.get('coinBase');
+  isConnected() {
+    return Session.get('isConnected');
   },
   isTermsAccepted() {
     return Session.get('citizenChecked') && Session.get('melon-terms') ;
@@ -102,11 +97,11 @@ Template.contribution.events({
     if (web3.isAddress(event.currentTarget.value) === false) {
       template.find('#contribution-text').innerHTML = '';
       template.find('#success-message').innerHTML = '';
-      template.find('#error-message').innerHTML = 'Contribution Address is invalid. Try again.';
+      template.find('#error-message').innerHTML = 'Contribution Address is invalid.';
     } else {
       template.find('#contribution-text').innerHTML = '';
       template.find('#error-message').innerHTML = '';
-      template.find('#success-message').innerHTML = 'Contribution Address is valid. Congrats.';
+      template.find('#success-message').innerHTML = 'Contribution Address is valid.';
     }
   },
   'click input'(event, template) {
@@ -128,7 +123,7 @@ Template.contribution.events({
     // Prevent default browser form submit
     event.preventDefault();
 
-    Materialize.toast('Not all terms accepted.', 8000, 'blue');
+    Materialize.toast('Not all terms and conditions accepted.', 8000, 'blue');
   },
   'submit .signature'(event, instance) {
     // Prevent default browser form submit

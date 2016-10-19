@@ -23,102 +23,116 @@
     </div>
   </div>
 
-  <!-- Terms&Conditions -->
-  <div class="container">
-    <div class="row">
-      <div class="col s12 m9 offset-m1 l8 offset-l2">
-        <!-- Terms Accepted -->
-        <h4 class="light">Terms and Conditions</h4>
-        <p>I hereby confirm to have read and understood the following documents:</p>
-        <ul class="collection">
-          <li class="collection-item">
-            <input type="checkbox" class="filled-in" id="melon-terms" />
-            <label for="melon-terms" class="grey-text text-darken-3">Melon Contribution Terms
-              <a href="#" onclick="window.open('melonprotocol.pdf', '_blank', 'fullscreen=yes'); return false;">(read)</a>
-            </label>
-          </li>
-        </ul>
-        <p>I hereby confirm to be:</p>
-        <ul class="collection">
-          <li class="collection-item">
-            <input type="checkbox" class="filled-in" id="citizen" />
-            <label for="citizen" class="grey-text text-darken-3">Non US citizen nor signing on behalf of a US citzien.</label>
-          </li>
-        </ul>
-        <!-- Documents Read -->
-        <p>I hereby confirm to have read and understood all of the following documents:</p>
-        <ul class="collection">
-          <li class="collection-item">
-            <input type="checkbox" class="filled-in" id="melon-whitepaper" />
-            <label for="melon-whitepaper" class="grey-text text-darken-3">Melon Protocol Whitepaper
-              <a href="#" onclick="window.open('melonprotocol.pdf', '_blank', 'fullscreen=yes'); return false;">(read)</a>
-            </label>
-          </li>
-          <li class="collection-item">
-            <input type="checkbox" class="filled-in" id="melon-ethcore-service-agreement" />
-            <label for="melon-ethcore-service-agreement" class="grey-text text-darken-3">Melon Ethcore Service Agreement
-              <a href="#" onclick="window.open('melonprotocol.pdf', '_blank', 'fullscreen=yes'); return false;">(read)</a>
-            </label>
-          </li>
-          <li class="collection-item">
-            <input type="checkbox" class="filled-in" id="ethcore-whitepaper" />
-            <label for="ethcore-whitepaper" class="grey-text text-darken-3">Ethcore Project Whitepaper
-              <a href="#" onclick="window.open('melonprotocol.pdf', '_blank', 'fullscreen=yes'); return false;">(read)</a>
-            </label>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <!-- Signature -->
-  <div class="container">
-    <div class="row">
-      <div class="col s12 m9 offset-m1 l8 offset-l2">
-        <form class="signature">
-          <h4 class="light">Confirming with Signature</h4>
-          <p>I hereby confirm to have read and understood all of the above points.</p>
-          <div class="row">
-            <div class="input-field col s12">
-              <label for="contribution_address" id="contribution-text">Contribution Address</label>
-              <label for="contribution_address" id="success-message" class="green-text text-lighten-1"></label>
-              <label for="contribution_address" id="error-message" class="red-text text-lighten-1"></label>
-              <input id="contribution_address" type="text" length="42" maxlength="42" required>
-            </div>
-          </div>
-          {{#if isAllAccepted}}
-            {{#if isECParamsSet}}
-              <a href="#results" class="signature btn btn-primary">Show results</a>
-            {{else}}
-              <button type="submit" class="signature btn btn-primary">I confirm</button>
-            {{/if}}
-          {{else}}
-            <button type="submit" class="disabled btn btn-primary">I confirm</button>
-          {{/if}}
-        </form>
-      </div>
-    </div>
-  </div>
-
-  <!-- Result -->
-  {{#if isECParamsSet}}
-  <div class="container">
-    <div class="row">
-      <div class="col s12 m9 offset-m1 l8 offset-l2">
-        <div id="results" class="section scrollspy">
-          <h4 class="light">Results</h4>
-          <p>With these three parameters you can contribute to the Melon/PRIVATE Project.</p>
-          {{#if isECParamsSet}}
-            <p> Contribution Address: <b>{{getContributionAddress}}</b></p>
-            <p> Signature v is: <b>{{getSigV}}</b></p>
-            <p> Signature r is: <b>{{getSigR}}</b></p>
-            <p> Signature s is: <b>{{getSigS}}</b></p>
-            <p> Thanks for contributing and being a part of the melon project. </p>
-          {{/if}}
+  {{#if isConnected}}
+    <!-- Terms&Conditions -->
+    <div class="container">
+      <div class="row">
+        <div class="col s12 m9 offset-m1 l8 offset-l2">
+          <!-- Terms Accepted -->
+          <h4 class="light">Terms and Conditions</h4>
+          <p>I hereby confirm to have read and understood the following documents:</p>
+          <ul class="collection">
+            <li class="collection-item">
+              <input type="checkbox" class="filled-in" id="melon-terms" />
+              <label for="melon-terms" class="grey-text text-darken-3">Melon Contribution Terms
+                <a href="#" onclick="window.open('melonprotocol.pdf', '_blank', 'fullscreen=yes'); return false;">(read)</a>
+              </label>
+            </li>
+          </ul>
+          <p>I hereby confirm to be:</p>
+          <ul class="collection">
+            <li class="collection-item">
+              <input type="checkbox" class="filled-in" id="citizen" />
+              <label for="citizen" class="grey-text text-darken-3">Non US citizen nor signing on behalf of a US citzien.</label>
+            </li>
+          </ul>
+          <!-- Documents Read -->
+          <p>I hereby confirm to have read and understood all of the following documents:</p>
+          <ul class="collection">
+            <li class="collection-item">
+              <input type="checkbox" class="filled-in" id="melon-whitepaper" />
+              <label for="melon-whitepaper" class="grey-text text-darken-3">Melon Protocol Whitepaper
+                <a href="#" onclick="window.open('melonprotocol.pdf', '_blank', 'fullscreen=yes'); return false;">(read)</a>
+              </label>
+            </li>
+            <li class="collection-item">
+              <input type="checkbox" class="filled-in" id="melon-ethcore-service-agreement" />
+              <label for="melon-ethcore-service-agreement" class="grey-text text-darken-3">Melon Ethcore Service Agreement
+                <a href="#" onclick="window.open('melonprotocol.pdf', '_blank', 'fullscreen=yes'); return false;">(read)</a>
+              </label>
+            </li>
+            <li class="collection-item">
+              <input type="checkbox" class="filled-in" id="ethcore-whitepaper" />
+              <label for="ethcore-whitepaper" class="grey-text text-darken-3">Ethcore Project Whitepaper
+                <a href="#" onclick="window.open('melonprotocol.pdf', '_blank', 'fullscreen=yes'); return false;">(read)</a>
+              </label>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
-  </div>
-  {{/if}}
 
+    <!-- Signature -->
+    <div class="container">
+      <div class="row">
+        <div class="col s12 m9 offset-m1 l8 offset-l2">
+          <form class="signature">
+            <h4 class="light">Confirming with Signature</h4>
+            <p>I hereby confirm to have read and understood all of the above points.</p>
+            <div class="row">
+              <div class="input-field col s12">
+                <label for="contribution_address" id="contribution-text">Contribution Address</label>
+                <label for="contribution_address" id="success-message" class="green-text text-lighten-1"></label>
+                <label for="contribution_address" id="error-message" class="red-text text-lighten-1"></label>
+                <input id="contribution_address" type="text" length="42" maxlength="42" required>
+              </div>
+            </div>
+            {{#if isAllAccepted}}
+              {{#if isECParamsSet}}
+                <a href="#results" class="signature btn btn-primary">Show results</a>
+              {{else}}
+                <button type="submit" class="signature btn btn-primary">I confirm</button>
+              {{/if}}
+            {{else}}
+              <button type="submit" class="disabled btn btn-primary">I confirm</button>
+            {{/if}}
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Result -->
+    {{#if isECParamsSet}}
+    <div class="container">
+      <div class="row">
+        <div class="col s12 m9 offset-m1 l8 offset-l2">
+          <div id="results" class="section scrollspy">
+            <h4 class="light">Results</h4>
+            <p>With these parameters you can contribute to the Melon/PRIVATE Project.</p>
+            {{#if isECParamsSet}}
+              <p> Contribution Address: <b>{{getContributionAddress}}</b></p>
+              <blockquote>
+                <p> Sig.v is: <b>{{getSigV}}</b></p>
+                <p> Sig.r is: <b>{{getSigR}}</b></p>
+                <p> Sig.s is: <b>{{getSigS}}</b></p>
+              </blockquote>
+              <p> Thanks for contributing.</p>
+            {{/if}}
+          </div>
+        </div>
+      </div>
+    </div>
+    {{/if}}
+  {{else}}
+    <div class="container">
+      <div class="row">
+        <div class="col s12 m9 offset-m1 l8 offset-l2">
+          <div id="results" class="section scrollspy">
+            <h4 class="light"><i class="small material-icons">call_end</i> No connection </h4>
+            <p>Unfortunately the Ethereum node seems to be down. Please conntact team@melonport.com. Thanks.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  {{/if}}
 </template>
