@@ -60,16 +60,6 @@ Template.contribution.helpers({
 Template.contribution.onRendered(function contributionOnRendered() {
   this.$('input#contribution_address').characterCounter();
   this.$('.scrollspy').scrollSpy();
-
-  // Insert into collection
-  const address = '0x7ed7d68befa84c9e955e183379e1b33760858263';
-  const hash = '0x' + sha256(new Buffer(address.slice(2),'hex'));
-  Meteor.call('contributors.insert', address);
-  Meteor.call('sign', address, hash, function (error, result) {
-      console.log(error);
-      console.log(result);
-    }
-  );
 });
 
 
@@ -114,26 +104,43 @@ Template.contribution.events({
     const target = event.target;
     const address = target.contribution_address.value
 
-    // Proof of only allowed IPs
+    // Proof of only allowed IPs, check Address is valid
     Meteor.call('contributors.insert', address);
     if (web3.isAddress(address) === false) {
       Materialize.toast('Invalid contribution address', 8000, 'blue');
       return;
     }
 
+    // Sign Hash of Address, i.e. confirming User agreed to terms and conditions.
     const hash = '0x' + sha256(new Buffer(address.slice(2),'hex'));
-
-    // Server (=signer) address signs off contribution address
-    sign(web3, SIGNER, hash, (err, sig) => {
-      if (!err) {
-        Session.set('contributionAddress', address);
-        Session.set('sig.v', sig.v);
-        Session.set('sig.r', sig.r);
-        Session.set('sig.s', sig.s);
-        Session.set('isECParamsSet', true);
-        Materialize.toast('Signature successfully generated', 8000, 'green');
+    Meteor.call('sign', hash, function (err, result) {
+      if(!err) {
+        let sig = result;
+        try {
+          var r = sig.slice(0, 66);
+          var s = '0x' + sig.slice(66, 130);
+          var v = parseInt('0x' + sig.slice(130, 132), 16);
+          if (sig.length<132) {
+            //web3.eth.sign shouldn't return a signature of length<132, but if it does...
+            sig = sig.slice(2);
+            r = '0x' + sig.slice(0, 64);
+            s = '0x00' + sig.slice(64, 126);
+            v = parseInt('0x' + sig.slice(126, 128), 16);
+          }
+          if (v!=27 && v!=28) v+=27;
+          // Let user know
+          Session.set('contributionAddress', address);
+          Session.set('sig.v', v);
+          Session.set('sig.r', r);
+          Session.set('sig.s', s);
+          Session.set('isECParamsSet', true);
+          Materialize.toast('Signature successfully generated', 8000, 'green');
+        } catch (err) {
+          Materialize.toast('Ethereum node seems to be down, please contact: team@melonport.com. Thanks.', 12000, 'red');
+        }
       } else {
-        Materialize.toast('Ethereum node seems to be down, please contact: team@melonport.com. Thanks.', 12000, 'red');
+        console.log(err);
+        Materialize.toast('There seems to be a server connecdtion error, please contact: team@melonport.com. Thanks.', 12000, 'red');
       }
     });
   },
