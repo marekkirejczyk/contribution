@@ -1,6 +1,6 @@
 import { Session } from 'meteor/session';
 import { Template } from 'meteor/templating';
-import { web3 } from '/imports/lib/client/ethereum/web3.js'
+import web3 from '/imports/lib/client/ethereum/web3.js'
 
 import './network_summary.html';
 

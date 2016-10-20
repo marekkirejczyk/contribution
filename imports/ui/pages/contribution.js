@@ -13,35 +13,6 @@ import web3 from '/imports/lib/client/ethereum/web3.js'
 
 import './contribution.html';
 
-// TODO signing server side
-const SIGNER = '0x7ed7d68befa84c9e955e183379e1b33760858263';
-
-
-function sign(web3, address, value, callback) {
-  web3.eth.sign(address, value, (err, sig) => {
-    if (!err) {
-      try {
-        var r = sig.slice(0, 66);
-        var s = '0x' + sig.slice(66, 130);
-        var v = parseInt('0x' + sig.slice(130, 132), 16);
-        if (sig.length<132) {
-          //web3.eth.sign shouldn't return a signature of length<132, but if it does...
-          sig = sig.slice(2);
-          r = '0x' + sig.slice(0, 64);
-          s = '0x00' + sig.slice(64, 126);
-          v = parseInt('0x' + sig.slice(126, 128), 16);
-        }
-        if (v!=27 && v!=28) v+=27;
-        callback(undefined, {r: r, s: s, v: v});
-      } catch (err) {
-        callback(err, undefined);
-      }
-    } else {
-      callback(err, undefined);
-    }
-  });
-}
-
 
 Template.contribution.onCreated(function contributionOnCreated() {
   Session.set('isECParamsSet', false);
@@ -89,6 +60,16 @@ Template.contribution.helpers({
 Template.contribution.onRendered(function contributionOnRendered() {
   this.$('input#contribution_address').characterCounter();
   this.$('.scrollspy').scrollSpy();
+
+  // Insert into collection
+  const address = '0x7ed7d68befa84c9e955e183379e1b33760858263';
+  const hash = '0x' + sha256(new Buffer(address.slice(2),'hex'));
+  Meteor.call('contributors.insert', address);
+  Meteor.call('sign', address, hash, function (error, result) {
+      console.log(error);
+      console.log(result);
+    }
+  );
 });
 
 
@@ -131,17 +112,21 @@ Template.contribution.events({
 
     // Get value from form element
     const target = event.target;
-    const contribution_address = target.contribution_address.value
-    if (web3.isAddress(contribution_address) === false) {
+    const address = target.contribution_address.value
+
+    // Proof of only allowed IPs
+    Meteor.call('contributors.insert', address);
+    if (web3.isAddress(address) === false) {
       Materialize.toast('Invalid contribution address', 8000, 'blue');
       return;
     }
-    const hash = '0x' + sha256(new Buffer(contribution_address.slice(2),'hex'));
+
+    const hash = '0x' + sha256(new Buffer(address.slice(2),'hex'));
 
     // Server (=signer) address signs off contribution address
     sign(web3, SIGNER, hash, (err, sig) => {
       if (!err) {
-        Session.set('contributionAddress', contribution_address);
+        Session.set('contributionAddress', address);
         Session.set('sig.v', sig.v);
         Session.set('sig.r', sig.r);
         Session.set('sig.s', sig.s);
