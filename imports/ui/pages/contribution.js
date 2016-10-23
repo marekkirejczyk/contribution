@@ -3,6 +3,7 @@ import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
+import { UserLocation } from 'meteor/flowkey:user-location';
 
 import { async } from 'async';
 import { assert } from 'assert';
@@ -19,7 +20,7 @@ Template.contribution.onCreated(function contributionOnCreated() {
 });
 
 
-Template.contribution.helpers({
+Template.contributiton.helpers({
   isConnected() {
     return Session.get('isConnected');
   },
@@ -60,6 +61,8 @@ Template.contribution.helpers({
 Template.contribution.onRendered(function contributionOnRendered() {
   this.$('input#contribution_address').characterCounter();
   this.$('.scrollspy').scrollSpy();
+
+  console.log(UserLocation.get());
 });
 
 
@@ -140,7 +143,7 @@ Template.contribution.events({
         }
       } else {
         console.log(err);
-        Materialize.toast('There seems to be a server connecdtion error, please contact: team@melonport.com. Thanks.', 12000, 'red');
+        Materialize.toast('There seems to be a server connection error, please contact: team@melonport.com. Thanks.', 12000, 'red');
       }
     });
   },
