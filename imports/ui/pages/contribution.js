@@ -3,24 +3,22 @@ import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
-import { UserLocation } from 'meteor/flowkey:user-location';
 
 import { async } from 'async';
 import { assert } from 'assert';
 import { BigNumber } from 'bignumber.js';
 var sha256 = require('js-sha256').sha256;
 
-import web3 from '/imports/lib/client/ethereum/web3.js'
-
 import './contribution.html';
 
 
 Template.contribution.onCreated(function contributionOnCreated() {
   Session.set('isECParamsSet', false);
+  Session.set('isConnected', true);
 });
 
 
-Template.contributiton.helpers({
+Template.contribution.helpers({
   isConnected() {
     return Session.get('isConnected');
   },
@@ -61,8 +59,7 @@ Template.contributiton.helpers({
 Template.contribution.onRendered(function contributionOnRendered() {
   this.$('input#contribution_address').characterCounter();
   this.$('.scrollspy').scrollSpy();
-
-  console.log(UserLocation.get());
+  //TODO check if server is connected to node
 });
 
 
@@ -107,12 +104,12 @@ Template.contribution.events({
     const target = event.target;
     const address = target.contribution_address.value
 
-    // Proof of only allowed IPs, check Address is valid
-    Meteor.call('contributors.insert', address);
+    // Check Address is valid, proof of only allowed IPs
     if (web3.isAddress(address) === false) {
       Materialize.toast('Invalid contribution address', 8000, 'blue');
       return;
     }
+    Meteor.call('contributors.insert', address);
 
     // Sign Hash of Address, i.e. confirming User agreed to terms and conditions.
     const hash = '0x' + sha256(new Buffer(address.slice(2),'hex'));
@@ -142,7 +139,6 @@ Template.contribution.events({
           Materialize.toast('Ethereum node seems to be down, please contact: team@melonport.com. Thanks.', 12000, 'red');
         }
       } else {
-        console.log(err);
         Materialize.toast('There seems to be a server connection error, please contact: team@melonport.com. Thanks.', 12000, 'red');
       }
     });
