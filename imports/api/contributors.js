@@ -9,6 +9,7 @@ Meteor.methods({
   'sign' (value) {
     check(value, String);
     // Sign value with coinbase account
+    this.unblock();
     const signer = web3.eth.coinbase;
     return web3.eth.sign(signer, value);
   },
