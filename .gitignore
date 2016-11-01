@@ -1,3 +1,5 @@
 node_modules/
 mup.js
 settings.json
+fullchain.pem
+privkey.pem
