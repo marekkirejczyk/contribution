@@ -14,6 +14,8 @@ import './contribution.html';
 
 Template.contribution.onCreated(function contributionOnCreated() {
   Session.set('isECParamsSet', false);
+  //TODO set false - testing only
+  // Session.set('isECParamsSet', true);
   Session.set('isConnected', true);
   Meteor.call('isConnected', (err, result) => {
     if(!err) {
@@ -32,7 +34,7 @@ Template.contribution.helpers({
   isTermsAccepted() {
     return Session.get('melon-terms') &&
       Session.get('no-equity') &&
-      Session.get('workshop') && 
+      Session.get('workshop') &&
       Session.get('citizenChecked');
   },
   isDocumentsRead() {
@@ -48,6 +50,8 @@ Template.contribution.helpers({
       Session.get('melon-whitepaper') +
       Session.get('melon-parity-service-agreement') +
       Session.get('parity-whitepaper');
+      //TODO
+      // return true;
     return numAccTerms == numAllTerms;
   },
   isECParamsSet() {

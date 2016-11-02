@@ -1,47 +1,34 @@
 <template name="network_summary">
   <div class="buysellads-header center-on-small-only">
+    <br/>
     <!-- Network Summary -->
     <ul>
-      <li class="truncate text-light">Network Summary</li>
-
-      <!-- Blockchain Connection -->
-      <li> Status:
-        {{#if isConnected}}
+      <!-- Client is connected -->
+      {{#if isConnected}}
+        <li class="truncate text-light">Network Summary</li>
+        <li> Status:
           <a class="truncate green-text text-lighten-2">Connected</a>
-        {{else}}
-          <a class="truncate red-text text-lighten-2">Not connected</a>
-        {{/if}}
-      </li>
-
-      <!-- Blockchain Network -->
-      <li> Network:
-        {{#if isConnected}}
+        </li>
+        <li> Network:
           {{#if isTestnet}}
             <a class="truncate green-text text-lighten-2">Testnet</a>
           {{else}}
             <a class="truncate red-text text-lighten-2">Not offical Testnet!</a>
           {{/if}}
-        {{else}}
-          <a class="truncate red-text text-lighten-2">Not connected</a>
-        {{/if}}
-      </li>
-
-      <!-- Block Status -->
-      <li> Current Block:
-        {{#if isConnected}}
+        </li>
+        <li> Current Block:
           {{#if isSynced}}
             <a class="truncate green-text text-lighten-2">{{currentBlock}}</a>
           {{else}}
-            <a class="truncate blue-text text-lighten-2 center">{{snycingCurrentBlock}}/{{snycingHighestBlock}}:
-              <div class="progress">
-                <div class="determinate" style="width: {{snychingBlockProgress}}%"></div>
-              </div>
-            </a>
+            <a class="truncate blue-text text-lighten-2">Syncing</a>
           {{/if}}
-        {{else}}
-          <a class="truncate red-text text-lighten-2">Not connected</a>
-        {{/if}}
-      </li>
+        </li>
+      <!-- Not connected -->
+      {{else}}
+        <li class="text-light">You also can use this application with</li>
+        <li class="text-light">MetaMask and</li>
+        <li class="text-light">Mist</li>
+      {{/if}}
     </ul>
   </div>
 </template>
