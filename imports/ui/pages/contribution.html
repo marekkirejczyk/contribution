@@ -43,11 +43,11 @@
           <ul class="collection">
             <li class="collection-item">
               <input type="checkbox" class="filled-in" id="no-equity" />
-              <label for="no-equity" class="grey-text text-darken-3">Contributing neither gives me equity in Melonport AG nor in Parity Technologies Limited.</label>
+              <label for="no-equity" class="grey-text text-darken-3">Contributor does not receive equity in Melonport AG.</label>
             </li>
             <li class="collection-item">
               <input type="checkbox" class="filled-in" id="workshop" />
-              <label for="workshop" class="grey-text text-darken-3">Contributions will be used to fullfill the workshop as outlined in the <a href="#" onclick="window.open('melonprotocol.pdf', '_blank', 'fullscreen=yes'); return false;">Melon Contribution Terms</a>.</label>
+              <label for="workshop" class="grey-text text-darken-3">Contributions will be used to fullfill the workshop mission.</label>
             </li>
           </ul>
           <p>I hereby confirm to be:</p>
@@ -58,7 +58,7 @@
             </li>
           </ul>
           <!-- Documents Read -->
-          <p>I hereby confirm to have read and understood all of the following documents:</p>
+          <p>I hereby confirm to have read the following documents:</p>
           <ul class="collection">
             <li class="collection-item">
               <input type="checkbox" class="filled-in" id="melon-whitepaper" />
@@ -88,8 +88,8 @@
       <div class="row">
         <div class="col s12 m9 offset-m1 l8 offset-l2">
           <form class="signature">
-            <h4 class="light">Confirming with Signature</h4>
-            <p>I hereby confirm to have read, understood, acknowledged and agreed upon all of the above points.</p>
+            <h4 class="light">Confirm</h4>
+            <p>Please insert the Ethereum address with which you would like to contribute if and only if you have read, acknowledged and agreed upon all of the above terms and conditions.</p>
             <div class="row">
               <div class="input-field col s12">
                 <label for="contribution_address" id="contribution-text">Contribution Address</label>
@@ -119,7 +119,7 @@
         <div class="col s12 m9 offset-m1 l8 offset-l2">
           <div id="results" class="section scrollspy">
             <h4 class="light">Results</h4>
-            <p>With these parameters you can contribute to the Melon/PRIVATE Project.</p>
+            <p>With these parameters you can contribute to Melon.</p>
             {{#if isECParamsSet}}
               <p> Contribution Address: <b>{{getContributionAddress}}</b></p>
               <blockquote>

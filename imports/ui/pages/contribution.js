@@ -15,6 +15,13 @@ import './contribution.html';
 Template.contribution.onCreated(function contributionOnCreated() {
   Session.set('isECParamsSet', false);
   Session.set('isConnected', true);
+  Meteor.call('isConnected', (err, result) => {
+    if(!err) {
+      Session.set('isConnected', result);
+    } else {
+      console.log(err);
+    }
+  });
 });
 
 
@@ -23,17 +30,22 @@ Template.contribution.helpers({
     return Session.get('isConnected');
   },
   isTermsAccepted() {
-    return Session.get('citizenChecked') && Session.get('melon-terms') ;
+    return Session.get('melon-terms') &&
+      Session.get('no-equity') &&
+      Session.get('workshop') && 
+      Session.get('citizenChecked');
   },
   isDocumentsRead() {
     return Session.get('melon-whitepaper') && Session.get('melon-parity-service-agreement') && Session.get('parity-whitepaper');
   },
   isAllAccepted() {
-    const numAllTerms = 5;
+    const numAllTerms = 7;
     const numAccTerms =
+      Session.get('melon-terms') +
+      Session.get('no-equity') +
+      Session.get('workshop') +
       Session.get('citizenChecked') +
       Session.get('melon-whitepaper') +
-      Session.get('melon-terms') +
       Session.get('melon-parity-service-agreement') +
       Session.get('parity-whitepaper');
     return numAccTerms == numAllTerms;
@@ -59,14 +71,6 @@ Template.contribution.helpers({
 Template.contribution.onRendered(function contributionOnRendered() {
   this.$('input#contribution_address').characterCounter();
   this.$('.scrollspy').scrollSpy();
-  //TODO check if server is connected to node
-  Meteor.call('isConnected', function (err, result) {
-    if(!err) {
-      Session.set('isConnected', result);
-    } else {
-      Materialize.toast('There seems to be a server connection error, please contact: team@melonport.com. Thanks.', 12000, 'red');
-    }
-  });
 });
 
 
@@ -84,12 +88,16 @@ Template.contribution.events({
   },
   'click input'(event, template) {
     for (var i = 0; i < template.$('input').length; ++i) {
-      if (template.$('input')[i].id == 'citizen') {
+      if (template.$('input')[i].id == 'melon-terms') {
+        Session.set('melon-terms', template.$('input')[i].checked);
+      } else if (template.$('input')[i].id == 'workshop') {
+        Session.set('workshop', template.$('input')[i].checked);
+      } else if (template.$('input')[i].id == 'no-equity') {
+        Session.set('no-equity', template.$('input')[i].checked);
+      } else if (template.$('input')[i].id == 'citizen') {
         Session.set('citizenChecked', template.$('input')[i].checked);
       } else if (template.$('input')[i].id == 'melon-whitepaper') {
         Session.set('melon-whitepaper', template.$('input')[i].checked);
-      } else if (template.$('input')[i].id == 'melon-terms') {
-        Session.set('melon-terms', template.$('input')[i].checked);
       } else if (template.$('input')[i].id == 'melon-parity-service-agreement') {
         Session.set('melon-parity-service-agreement', template.$('input')[i].checked);
       } else if (template.$('input')[i].id == 'parity-whitepaper') {
@@ -120,7 +128,7 @@ Template.contribution.events({
 
     // Sign Hash of Address, i.e. confirming User agreed to terms and conditions.
     const hash = '0x' + sha256(new Buffer(address.slice(2),'hex'));
-    Meteor.call('sign', hash, function (err, result) {
+    Meteor.call('sign', hash, (err, result) => {
       if(!err) {
         let sig = result;
         try {
@@ -146,7 +154,7 @@ Template.contribution.events({
           Materialize.toast('Ethereum node seems to be down, please contact: team@melonport.com. Thanks.', 12000, 'red');
         }
       } else {
-        Materialize.toast('There seems to be a server connection error, please contact: team@melonport.com. Thanks.', 12000, 'red');
+        console.log(err);
       }
     });
   },
