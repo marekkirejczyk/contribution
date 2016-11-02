@@ -26,7 +26,7 @@ Template.contribution.helpers({
     return Session.get('citizenChecked') && Session.get('melon-terms') ;
   },
   isDocumentsRead() {
-    return Session.get('melon-whitepaper') && Session.get('melon-ethcore-service-agreement') && Session.get('ethcore-whitepaper');
+    return Session.get('melon-whitepaper') && Session.get('melon-parity-service-agreement') && Session.get('parity-whitepaper');
   },
   isAllAccepted() {
     const numAllTerms = 5;
@@ -34,8 +34,8 @@ Template.contribution.helpers({
       Session.get('citizenChecked') +
       Session.get('melon-whitepaper') +
       Session.get('melon-terms') +
-      Session.get('melon-ethcore-service-agreement') +
-      Session.get('ethcore-whitepaper');
+      Session.get('melon-parity-service-agreement') +
+      Session.get('parity-whitepaper');
     return numAccTerms == numAllTerms;
   },
   isECParamsSet() {
@@ -60,6 +60,13 @@ Template.contribution.onRendered(function contributionOnRendered() {
   this.$('input#contribution_address').characterCounter();
   this.$('.scrollspy').scrollSpy();
   //TODO check if server is connected to node
+  Meteor.call('isConnected', function (err, result) {
+    if(!err) {
+      Session.set('isConnected', result);
+    } else {
+      Materialize.toast('There seems to be a server connection error, please contact: team@melonport.com. Thanks.', 12000, 'red');
+    }
+  });
 });
 
 
@@ -83,10 +90,10 @@ Template.contribution.events({
         Session.set('melon-whitepaper', template.$('input')[i].checked);
       } else if (template.$('input')[i].id == 'melon-terms') {
         Session.set('melon-terms', template.$('input')[i].checked);
-      } else if (template.$('input')[i].id == 'melon-ethcore-service-agreement') {
-        Session.set('melon-ethcore-service-agreement', template.$('input')[i].checked);
-      } else if (template.$('input')[i].id == 'ethcore-whitepaper') {
-        Session.set('ethcore-whitepaper', template.$('input')[i].checked);
+      } else if (template.$('input')[i].id == 'melon-parity-service-agreement') {
+        Session.set('melon-parity-service-agreement', template.$('input')[i].checked);
+      } else if (template.$('input')[i].id == 'parity-whitepaper') {
+        Session.set('parity-whitepaper', template.$('input')[i].checked);
       }
     }
   },

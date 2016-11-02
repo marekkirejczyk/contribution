@@ -6,14 +6,17 @@ export const Contributors = new Mongo.Collection('contributors');
 
 
 Meteor.methods({
-  'sign' (value) {
+  'isConnected'() {
+    return web3.isConnected();
+  },
+  'sign'(value) {
     check(value, String);
     // Sign value with coinbase account
     this.unblock();
     const signer = web3.eth.coinbase;
     return web3.eth.sign(signer, value);
   },
-  'isAddress' (address) {
+  'isAddress'(address) {
     check(value, String);
     return web3.isAddress(address);
   },
@@ -21,9 +24,8 @@ Meteor.methods({
     // Return IP as seen from the Server
     return this.connection.clientAddress;
   },
-  'contributors.insert' (address) {
+  'contributors.insert'(address) {
     check(address, String);
-
     Contributors.insert({
       ip: this.connection.clientAddress,
       address,
