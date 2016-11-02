@@ -18,15 +18,3 @@ FlowRouter.route('/', {
     });
   },
 });
-
-// Route for contribution
-FlowRouter.route('/contribution', {
-  name: 'contribution',
-  action() {
-    BlazeLayout.render('layout_main', {
-      // nav: 'layout_header',
-      main: 'contribution',
-      // footer: 'layout_footer',
-    });
-  },
-});

@@ -16,7 +16,7 @@ Meteor.methods({
   'isAddress' (address) {
     check(value, String);
     return web3.isAddress(address);
-  }
+  },
   'ipaddress'() {
     // Return IP as seen from the Server
     return this.connection.clientAddress;
