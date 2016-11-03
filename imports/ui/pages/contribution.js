@@ -14,10 +14,10 @@ import './contribution.html';
 
 Template.contribution.onCreated(function contributionOnCreated() {
   Session.set('isECParamsSet', false);
-  Session.set('isConnected', true);
-  Meteor.call('isConnected', (err, result) => {
+  Session.set('isServerConnected', true);
+  Meteor.call('isServerConnected', (err, result) => {
     if(!err) {
-      Session.set('isConnected', result);
+      Session.set('isServerConnected', result);
     } else {
       console.log(err);
     }
@@ -26,9 +26,6 @@ Template.contribution.onCreated(function contributionOnCreated() {
 
 
 Template.contribution.helpers({
-  isConnected() {
-    return Session.get('isConnected');
-  },
   isTermsAccepted() {
     return Session.get('melon-terms') &&
       Session.get('no-equity') &&
@@ -53,6 +50,10 @@ Template.contribution.helpers({
   isECParamsSet() {
     return Session.get('isECParamsSet');
   },
+  whenECParamsSet() {
+    if (Session.get('isECParamsSet'))
+      return 'disabled';
+  },
   getContributionAddress() {
     return Session.get('contributionAddress');
   },
@@ -76,7 +77,7 @@ Template.contribution.onRendered(function contributionOnRendered() {
 
 Template.contribution.events({
   'input #contribution_address'(event, template) {
-    if (web3.isAddress(event.currentTarget.value) === false) {
+    if (Meteor.call('isAddress', event.currentTarget.value) === false) {
       template.find('#contribution-text').innerHTML = '';
       template.find('#success-message').innerHTML = '';
       template.find('#error-message').innerHTML = 'Contribution Address is invalid.';
@@ -120,7 +121,7 @@ Template.contribution.events({
     const address = target.contribution_address.value
 
     // Check Address is valid, proof of only allowed IPs
-    if (web3.isAddress(address) === false) {
+    if (Meteor.call('isAddress', address) === false) {
       Materialize.toast('Invalid contribution address', 8000, 'blue');
       return;
     }

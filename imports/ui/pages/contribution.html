@@ -21,13 +21,13 @@
         </div>
         <!-- Users network summary -->
         <div class="col s12 m2">
-          <!-- {{> network_summary}} -->
+          {{> network_summary}}
         </div>
       </div>
     </div>
   </div>
 
-  {{#if isConnected}}
+  {{#if isServerConnected}}
     <!-- Terms&Conditions -->
     <div class="container">
       <div class="row">
@@ -88,7 +88,6 @@
     </div>
 
     <!-- Signature -->
-    {{#unless isECParamsSet}}
     <div class="container">
       <div class="row">
         <div class="col s12 m9 offset-m1 l8 offset-l2">
@@ -100,7 +99,7 @@
                 <label for="contribution_address" id="contribution-text">Contribution Address</label>
                 <label for="contribution_address" id="success-message" class="green-text text-lighten-1"></label>
                 <label for="contribution_address" id="error-message" class="red-text text-lighten-1"></label>
-                <input id="contribution_address" type="text" length="42" maxlength="42" required>
+                <input {{whenECParamsSet}} id="contribution_address" type="text" length="42" maxlength="42" required>
               </div>
             </div>
             {{#if isAllAccepted}}
@@ -116,7 +115,6 @@
         </div>
       </div>
     </div>
-    {{/unless}}
 
     <!-- Result -->
     {{#if isECParamsSet}}
@@ -127,13 +125,12 @@
             <h4 class="light">Results</h4>
             <p>With these parameters you can contribute to Melon.</p>
             {{#if isECParamsSet}}
-              <p> Contribution Address: <b>{{getContributionAddress}}</b></p>
               <blockquote>
                 <p> Sig.v is: <b>{{getSigV}}</b></p>
                 <p> Sig.r is: <b>{{getSigR}}</b></p>
                 <p> Sig.s is: <b>{{getSigS}}</b></p>
               </blockquote>
-              <p> To contribute you can either use Mist, Metamask or see the Video below on how to use the Ethereum Wallet</p>
+              <p> To contribute you can either use the Ethereum Wallet, MetaMask or Mist.</p>
               <p> Thanks for contributing.</p>
             {{/if}}
           </div>

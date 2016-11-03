@@ -1,34 +1,35 @@
 <template name="network_summary">
   <div class="buysellads-header center-on-small-only">
     <br/>
-    <!-- Network Summary -->
+    <!-- Client is connected -->
+    {{#if isConnected}}
     <ul>
-      <!-- Client is connected -->
-      {{#if isConnected}}
-        <li class="truncate text-light">Network Summary</li>
-        <li> Status:
-          <a class="truncate green-text text-lighten-2">Connected</a>
-        </li>
-        <li> Network:
-          {{#if isTestnet}}
-            <a class="truncate green-text text-lighten-2">Testnet</a>
-          {{else}}
-            <a class="truncate red-text text-lighten-2">Not offical Testnet!</a>
-          {{/if}}
-        </li>
-        <li> Current Block:
-          {{#if isSynced}}
-            <a class="truncate green-text text-lighten-2">{{currentBlock}}</a>
-          {{else}}
-            <a class="truncate blue-text text-lighten-2">Syncing</a>
-          {{/if}}
-        </li>
-      <!-- Not connected -->
-      {{else}}
-        <li class="text-light">This application can be used with</li>
-        <li class="text-light">MetaMask and</li>
-        <li class="text-light">Mist</li>
-      {{/if}}
+      <li class="truncate text-light">Network Summary</li>
+      <li> Status:
+        <a class="truncate green-text text-lighten-2">Connected</a>
+      </li>
+      <li> Network:
+        {{#if isMainNetwork}}
+          <a class="truncate green-text">{{getNetwork}}</a>
+        {{/if}}
+        {{#if isTestNetwork}}
+          <a class="truncate white-text">{{getNetwork}}</a>
+        {{/if}}
+      </li>
+      <li> Current Block:
+        {{#if isSynced}}
+          <a class="truncate green-text text-lighten-2">{{latestBlock}}</a>
+        {{else}}
+          <a class="truncate blue-text text-lighten-2">Syncing</a>
+        {{/if}}
+      </li>
     </ul>
+    <!-- Not connected -->
+    {{else}}
+      <br/>
+      <span class="text-light">Try use me with</span>
+      <li><a class="white-text" href="https://metamask.io/"><b>MetaMask</b></a></li>
+      <li><a class="white-text" href="https://github.com/ethereum/mist"><b>Mist</b></a></li>
+    {{/if}}
   </div>
 </template>

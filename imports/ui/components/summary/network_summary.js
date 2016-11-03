@@ -6,38 +6,17 @@ import './network_summary.html';
 
 
 Template.network_summary.onCreated(() => {
-  web3.version.getNetwork((error, result) => {
-    if(!error) {
-      Session.set('network', result)
-    } else {
-      console.error(error);
-    }
-  });
-
-  web3.eth.getSyncing((error, result) => {
-    if(!error) {
-      Session.set('syncing', result)
-    } else {
-      console.error(error);
-    }
-  });
-
-  web3.eth.getBlockNumber((error, result) => {
-    if(!error) {
-      Session.set('currentBlock', result)
-    } else {
-      console.error(error);
-    }
-  });
 });
 
-
 Template.network_summary.helpers({
-  isConnected() {
-    return web3.isConnected();
+  isMainNetwork() {
+    return Session.get('network') == 'main';
   },
-  isTestnet() {
-    return Session.get('network') === '2';
+  isTestNetwork() {
+    return Session.get('network') == 'test';
+  },
+  getNetwork() {
+    return Session.get('network');
   },
   isSynced() {
     return Session.get('syncing') === false;
