@@ -10,10 +10,10 @@
       </li>
       <li> Network:
         {{#if isMainNetwork}}
-          <a class="truncate green-text">{{getNetwork}}</a>
+          <a class="truncate green-text text-lighten-2">{{getNetwork}}</a>
         {{/if}}
         {{#if isTestNetwork}}
-          <a class="truncate white-text">{{getNetwork}}</a>
+          <a class="truncate white-text text-lighten-2">{{getNetwork}}</a>
         {{/if}}
       </li>
       <li> Current Block:
@@ -28,8 +28,8 @@
     {{else}}
       <br/>
       <span class="text-light">Try use me with</span>
-      <li><a class="white-text" href="https://metamask.io/"><b>MetaMask</b></a></li>
-      <li><a class="white-text" href="https://github.com/ethereum/mist"><b>Mist</b></a></li>
+      <li><a class="white-text" href="https://metamask.io/" target="_blank"><b>MetaMask</b></a></li>
+      <li><a class="white-text" href="https://github.com/ethereum/mist" target="_blank"><b>Mist</b></a></li>
     {{/if}}
   </div>
 </template>
