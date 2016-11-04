@@ -1,8 +1,6 @@
 <template name="network_summary">
   <div class="buysellads-header center-on-small-only">
     <br/>
-    <!-- Client is connected -->
-    {{#if isConnected}}
     <ul>
       <li class="truncate text-light">Network Summary</li>
       <li> Status:
@@ -24,12 +22,5 @@
         {{/if}}
       </li>
     </ul>
-    <!-- Not connected -->
-    {{else}}
-      <br/>
-      <span class="text-light">Try use me with</span>
-      <li><a class="white-text" href="https://metamask.io/" target="_blank"><b>MetaMask</b></a></li>
-      <li><a class="white-text" href="https://github.com/ethereum/mist" target="_blank"><b>Mist</b></a></li>
-    {{/if}}
   </div>
 </template>
