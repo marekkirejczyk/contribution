@@ -159,4 +159,10 @@ Template.contribution.events({
       }
     });
   },
+  'submit .amount'(event, instance) {
+    // Prevent default browser form submit
+    event.preventDefault();
+
+    alert('Contribution has not started yet');
+  },
 });

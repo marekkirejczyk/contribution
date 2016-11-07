@@ -134,12 +134,12 @@
             <p>With these parameters you can contribute to Melon.</p>
             {{#if isECParamsSet}}
               <blockquote>
+                <p> Ethereum Address: <b>{{getContributionAddress}}</b></p>
                 <p> Sig.v is: <b>{{getSigV}}</b></p>
                 <p> Sig.r is: <b>{{getSigR}}</b></p>
                 <p> Sig.s is: <b>{{getSigS}}</b></p>
               </blockquote>
               <p> To contribute you can either use the Ethereum Wallet, MetaMask or Mist.</p>
-              <p> Thanks for contributing.</p>
             {{/if}}
           </div>
         </div>
