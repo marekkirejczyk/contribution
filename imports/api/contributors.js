@@ -15,9 +15,6 @@ Meteor.methods({
     const signer = web3.eth.coinbase;
     return web3.eth.sign(signer, value);
   },
-  'isAddress'(address) {
-    return web3.isAddress(address);
-  },
   'ipaddress'() {
     // Return IP as seen from the Server
     return this.connection.clientAddress;

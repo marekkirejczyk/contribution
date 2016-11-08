@@ -77,7 +77,7 @@ Template.contribution.onRendered(function contributionOnRendered() {
 
 Template.contribution.events({
   'input #contribution_address'(event, template) {
-    if (Meteor.call('isAddress', event.currentTarget.value) === false) {
+    if (web3.isAddress(event.currentTarget.value) === false) {
       template.find('#contribution-text').innerHTML = '';
       template.find('#success-message').innerHTML = '';
       template.find('#error-message').innerHTML = 'Contribution Address is invalid.';
@@ -121,7 +121,7 @@ Template.contribution.events({
     const address = target.contribution_address.value
 
     // Check Address is valid, proof of only allowed IPs
-    if (Meteor.call('isAddress', address) === false) {
+    if (web3.isAddress(event.currentTarget.value) === false) {
       Materialize.toast('Invalid contribution address', 8000, 'blue');
       return;
     }
