@@ -1,15 +1,14 @@
-// Sticky Footer
-.site {
+body {
   display: flex;
   min-height: 100vh;
   flex-direction: column;
 }
 
-.site-content {
+main {
   flex: 1 0 auto;
 }
 
 // No margin
-.page-footer {
+footer.page-footer {
   margin: 0;
 }
