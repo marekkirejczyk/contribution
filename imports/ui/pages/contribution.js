@@ -121,7 +121,7 @@ Template.contribution.events({
     const address = target.contribution_address.value
 
     // Check Address is valid, proof of only allowed IPs
-    if (web3.isAddress(event.currentTarget.value) === false) {
+    if (web3.isAddress(address) === false) {
       Materialize.toast('Invalid contribution address', 8000, 'blue');
       return;
     }
