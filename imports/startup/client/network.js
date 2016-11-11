@@ -123,4 +123,6 @@ Meteor.startup(() => {
       }
     }
   });
+
+  Meteor.setInterval(checkNetwork, 2503);  
 });
