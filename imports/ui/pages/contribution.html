@@ -26,7 +26,7 @@
             {{> network_summary}}
           {{else}}
             <br/>
-            <span class="text-light">Try use me with</span>
+            <span class="text-light">Try to use me with</span>
             <li><a class="white-text" href="https://metamask.io/" target="_blank"><b>MetaMask</b></a></li>
             <li><a class="white-text" href="https://github.com/ethereum/mist" target="_blank"><b>Mist</b></a></li>
           {{/if}}
@@ -153,10 +153,10 @@
           <div class="col s12 m9 offset-m1 l8 offset-l2">
               <form class="amount">
                 <h4 class="light">Send Funds</h4>
-                <p>Please insert the amount of Ether you'd like to contribute</p>
+                <p>Please insert the amount of Ether you'd like to contribute from your contribution address: {{getContributionAddress}}</p>
                 <div class="row">
                   <div class="input-field col s12">
-                    <input id="ether_amount" type="number" class="validate">
+                    <input id="ether_amount" type="number" step="any" class="validate">
                     <label for="ether_amount">Ether Amount</label>
                   </div>
                 </div>
