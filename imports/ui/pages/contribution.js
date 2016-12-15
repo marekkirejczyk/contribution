@@ -33,18 +33,17 @@ Template.contribution.helpers({
       Session.get('citizenChecked');
   },
   isDocumentsRead() {
-    return Session.get('melon-whitepaper') && Session.get('melon-parity-service-agreement') && Session.get('parity-whitepaper');
+    return Session.get('melon-whitepaper') && Session.get('melon-specifications');
   },
   isAllAccepted() {
-    const numAllTerms = 7;
+    const numAllTerms = 6;
     const numAccTerms =
       Session.get('melon-terms') +
       Session.get('no-equity') +
       Session.get('workshop') +
       Session.get('citizenChecked') +
       Session.get('melon-whitepaper') +
-      Session.get('melon-parity-service-agreement') +
-      Session.get('parity-whitepaper');
+      Session.get('melon-specifications');
     return numAccTerms == numAllTerms;
   },
   isECParamsSet() {
@@ -99,10 +98,8 @@ Template.contribution.events({
         Session.set('citizenChecked', template.$('input')[i].checked);
       } else if (template.$('input')[i].id == 'melon-whitepaper') {
         Session.set('melon-whitepaper', template.$('input')[i].checked);
-      } else if (template.$('input')[i].id == 'melon-parity-service-agreement') {
-        Session.set('melon-parity-service-agreement', template.$('input')[i].checked);
-      } else if (template.$('input')[i].id == 'parity-whitepaper') {
-        Session.set('parity-whitepaper', template.$('input')[i].checked);
+      } else if (template.$('input')[i].id == 'melon-specifications') {
+        Session.set('melon-specifications', template.$('input')[i].checked);
       }
     }
   },

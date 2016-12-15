@@ -8,10 +8,13 @@
       </li>
       <li> Network:
         {{#if isMainNetwork}}
-          <a class="truncate green-text text-lighten-2">{{getNetwork}}</a>
+          <a class="truncate red-text text-lighten-2">{{getNetwork}}</a>
         {{/if}}
-        {{#if isTestNetwork}}
-          <a class="truncate white-text text-lighten-2">{{getNetwork}}</a>
+        {{#if isMordenNetwork}}
+          <a class="truncate red-text text-lighten-2">{{getNetwork}}</a>
+        {{/if}}
+        {{#if isRopstenNetwork}}
+          <a class="truncate green-text text-lighten-2">{{getNetwork}}</a>
         {{/if}}
       </li>
       <li> Current Block:
