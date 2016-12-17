@@ -6,32 +6,36 @@
     <div class="container">
       <div class="row center">
         <div class="col s12 m7 offset-m1 l6 offset-l2">
-          <h1 class="header center-on-small-only grey-text text-lighten-4">Contribution</h1>
+          <h1 class="header center-on-small-only truncate grey-text text-lighten-4">Contribution</h1>
           {{#unless isTermsAccepted}}
             <!-- <h4 class ="center-on-small-only light grey-text text-lighten-5">Please read carefully and thouroughly.</h4> -->
-            <h4 class ="center-on-small-only light grey-text text-lighten-5">Currently only for testing purposes.</h4>
+            <h4 class ="center-on-small-only light grey-text text-lighten-5">Currently only for testing purposes</h4>
           {{/unless}}
           {{#if isTermsAccepted}}
           {{#unless isAllAccepted}}
-            <h4 class ="center-on-small-only light grey-text text-lighten-5">We want you to understand what you're in for.</h4>
+            <h4 class ="center-on-small-only light grey-text text-lighten-5">We want you to understand what you're in for</h4>
           {{/unless}}
           {{/if}}
           {{#if isAllAccepted}}
-            <h4 class ="center-on-small-only light grey-text text-lighten-5">The time has come for you to decide.</h4>
+            <h4 class ="center-on-small-only light grey-text text-lighten-5">The time has come for you to decide</h4>
           {{/if}}
         </div>
-        <!-- Users network summary -->
-        <div class="col s12 m2">
-          <!-- Client is connected -->
-          {{#if isConnected}}
+        <!-- Client is connected -->
+        {{#if isClientConnected}}
+          <div class="col s12 m1 l2">
             {{> network_summary}}
-          {{else}}
+          </div>
+          <div class="col s12 m1 l2">
+            {{> contribution_summary}}
+          </div>
+        {{else}}
+          <div class="col s12 m2">
             <br/>
             <span class="text-light">Try to use me with</span>
             <li><a class="white-text" href="https://metamask.io/" target="_blank"><b>MetaMask</b></a></li>
             <li><a class="white-text" href="https://github.com/ethereum/mist" target="_blank"><b>Mist</b></a></li>
-          {{/if}}
-        </div>
+          </div>
+        {{/if}}
       </div>
     </div>
   </div>
@@ -141,7 +145,7 @@
       </div>
     </div>
 
-    {{#if isConnected}}
+    {{#if isClientConnected}}
       <!-- Send Funds -->
       <div class="container">
         <div class="row">
