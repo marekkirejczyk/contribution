@@ -9,13 +9,13 @@ Template.network_summary.onCreated(() => {
 
 Template.network_summary.helpers({
   isMainNetwork() {
-    return Session.get('network') === 'main';
+    return Session.get('network') === 'Main';
   },
   isMordenNetwork() {
-    return Session.get('network') === 'morden';
+    return Session.get('network') === 'Morden';
   },
   isRopstenNetwork() {
-    return Session.get('network') === 'ropsten';
+    return Session.get('network') === 'Ropsten';
   },
   getNetwork() {
     return Session.get('network');
