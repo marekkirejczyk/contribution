@@ -1,29 +1,52 @@
 <template name="network_summary">
-  <div class="buysellads-header center-on-small-only">
-    <br/>
-    <ul>
-      <li class="truncate text-light">Network Summary</li>
-      <li> Status:
-        <a class="truncate green-text text-lighten-2">Connected</a>
-      </li>
-      <li> Network:
-        {{#if isMainNetwork}}
-          <a class="truncate red-text text-lighten-2">{{getNetwork}}</a>
-        {{/if}}
-        {{#if isMordenNetwork}}
-          <a class="truncate red-text text-lighten-2">{{getNetwork}}</a>
-        {{/if}}
-        {{#if isRopstenNetwork}}
-          <a class="truncate green-text text-lighten-2">{{getNetwork}}</a>
-        {{/if}}
-      </li>
-      <li> Current Block:
-        {{#if isSynced}}
-          <a class="truncate green-text text-lighten-2">{{latestBlock}}</a>
-        {{else}}
-          <a class="truncate blue-text text-lighten-2">Syncing</a>
-        {{/if}}
-      </li>
-    </ul>
+
+  <div class="hero-network-summary">
+    <!-- Client is connected -->
+    {{#if isClientConnected}}
+      <ul>
+        <li>Network <br/>Summary</li>
+        <li>
+          <p class="status">Status:</p>
+          <p class="value green">Connected</p>
+        </li>
+        <li>
+          <p class="status">Network:</p>
+          {{#if isMainNetwork}}
+            <p class="value red">{{getNetwork}}</p>
+          {{/if}}
+          {{#if isMordenNetwork}}
+            <p class="value red">{{getNetwork}}</p>
+          {{/if}}
+          {{#if isRopstenNetwork}}
+            <p class="value green">{{getNetwork}}</p>
+          {{/if}}
+        </li>
+        <li>
+          <p class="status">Current Block:</p>
+          {{#if isSynced}}
+            <p class="value green">{{latestBlock}}</p>
+          {{else}}
+            <p class="value blue">Syncing</p>
+          {{/if}}
+        </li>
+      </ul>
+    {{else}}
+      <ul>
+        <li>Network <br/>Summary</li>
+        <li>
+          <p class="status">Status:</p>
+          <p class="status">Not Connected</p>
+        </li>
+        <li>
+          <p class="status">Try to use me with:</p>
+          <p><a href="https://metamask.io/" target="_blank"><b>MetaMask</b></a></p>
+        </li>
+        <li>
+          <p class="status">or with:</p>
+          <p><a class="white-text" href="https://github.com/ethereum/mist/releases/tag/v0.8.8" target="_blank"><b>Mist</b></a></p>
+        </li>
+      </ul>
+    {{/if}}
   </div>
+
 </template>

@@ -6,44 +6,25 @@
 			<div class="row">
 				<div class="col-md-6 col-sm-6 col-xs-12 text-center hero-text">
 					<h1>Contribution</h1>
-					<p>Currently only for testing purposes</p>
+          {{#unless isTermsAccepted}}
+            <!-- <p>Please read carefully and thouroughly.</p> -->
+            <p>Starting February 15th 2017</p>
+          {{/unless}}
+          {{#if isTermsAccepted}}
+          {{#unless isAllAccepted}}
+            <p>We want you to understand what you're in for</p>
+          {{/unless}}
+          {{/if}}
+          {{#if isAllAccepted}}
+            <p>The time has come for you to decide</p>
+          {{/if}}
 				</div>
-				<div class="col-md-6 col-sm-6 col-xs-12 hero-summary">
-					<div class="hero-network-summary">
-						<ul>
-							<li>CONTRIBUTION <br/> Summary</li>
-							<li>
-								<p class="status">Current Price:</p>
-								<p class="value blue">Not started yet</p>
-							</li>
-							<li>
-								<p class="status">Time Left:</p>
-								<p class="value blue">Not started yet</p>
-							</li>
-							<li>
-								<p class="status">ETH Received:</p>
-								<p class="value blue">Not started yet</p>
-							</li>
-						</ul>
-					</div>
-          <div class="hero-network-summary">
-						<ul>
-							<li>Network <br/>Summary</li>
-							<li>
-								<p class="status">Status:</p>
-								<p class="value green">Connected</p>
-							</li>
-							<li>
-								<p class="status">Network:</p>
-								<p class="value green">ropsten</p>
-							</li>
-							<li>
-								<p class="status">Current Block:</p>
-								<p class="value green">177624</p>
-							</li>
-						</ul>
-					</div>
+
+        <div class="col-md-6 col-sm-6 col-xs-12 hero-summary">
+          {{> network_summary}}          
+          {{> contribution_summary}}
 				</div>
+
 			</div>
 		</div>
 	</section>
@@ -52,7 +33,7 @@
 		<!-- term&condition -->
 		<div class="container mp-contrib-term">
 			<div class="row">
-				<div class="col-md-12">
+				<div class="col-md-9 col-md-offset-1 col-lg-8 col-lg-offset-2">
 					<h2 class="contrib-title">Terms and Conditions</h2>
 
 					<div class="form-checkbox">
@@ -116,7 +97,7 @@
 		<!-- confirm section -->
 		<div class="container mp-contrib-confirm">
 			<div class="row">
-				<div class="col-md-12">
+				<div class="col-md-9 col-md-offset-1 col-lg-8 col-lg-offset-2">
 					<h2 class="contrib-title">Confirmation</h2>
 					<p>Please insert the Ethereum address with which you would like to contribute if and only if you have read, acknowledged and agreed upon all of the above terms and conditions.</p>
 
@@ -135,7 +116,7 @@
 		<!-- signature section -->
 		<div class="container mp-contrib-sign">
 			<div class="row">
-				<div class="col-md-12 col-sm-12 col-xs-12">
+				<div class="col-md-9 col-md-offset-1 col-lg-8 col-lg-offset-2 col-sm-12 col-xs-12">
 					<h2 class="contrib-title">Signature (not official yet)</h2>
 					<p>With these parameters you can contribute to Melon.</p>
 					<ul>
@@ -152,7 +133,7 @@
 		<!-- send fund section -->
 		<div class="container mp-contrib-send">
 			<div class="row">
-				<div class="col-md-12">
+				<div class="col-md-9 col-md-offset-1 col-lg-8 col-lg-offset-2">
 					<h2 class="contrib-title">Send Funds</h2>
 					<p>Please insert the amount of Ether you'd like to contribute from your contribution address: <br/>0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
 
