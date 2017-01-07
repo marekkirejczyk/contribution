@@ -27,6 +27,9 @@ fortawesome:fontawesome       # Icons and fonts
 kadira:flow-router            # Routing of pages
 kadira:blaze-layout           # Rendering
 
+# Deployment and Monitoring
+okgrow:analytics        # Google analytics for flow-router
+
 # Internationalisation
 tap:i18n
 

@@ -54,6 +54,7 @@ mongo@1.1.13
 mongo-id@1.0.5
 npm-mongo@2.2.11_1
 observe-sequence@1.0.13
+okgrow:analytics@2.0.1
 ordered-dict@1.0.8
 poetic:materialize-scss@1.97.6_1
 promise@0.8.7
