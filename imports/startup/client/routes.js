@@ -12,9 +12,9 @@ FlowRouter.route('/', {
   name: 'contribution',
   action() {
     BlazeLayout.render('layout_main', {
-      // nav: 'layout_header',
+      nav: 'layout_header',
       main: 'contribution',
-      // footer: 'layout_footer',
+      footer: 'layout_footer',
     });
   },
 });

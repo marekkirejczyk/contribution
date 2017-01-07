@@ -1,204 +1,170 @@
 <template name="contribution">
-  <script type="text/javascript" async src="https://platform.twitter.com/widgets.js"></script>
 
-  <!-- Index-banner -->
-  <div class="section light-blue darken-2 white-text" id="index-banner">
-    <div class="container">
-      <div class="row center">
-        <div class="col s12 m7 offset-m1 l6 offset-l2">
-          <h1 class="header center-on-small-only truncate grey-text text-lighten-4">Contribution</h1>
-          {{#unless isTermsAccepted}}
-            <!-- <h4 class ="center-on-small-only light grey-text text-lighten-5">Please read carefully and thouroughly.</h4> -->
-            <h4 class ="center-on-small-only light grey-text text-lighten-5">Currently only for testing purposes</h4>
-          {{/unless}}
-          {{#if isTermsAccepted}}
-          {{#unless isAllAccepted}}
-            <h4 class ="center-on-small-only light grey-text text-lighten-5">We want you to understand what you're in for</h4>
-          {{/unless}}
-          {{/if}}
-          {{#if isAllAccepted}}
-            <h4 class ="center-on-small-only light grey-text text-lighten-5">The time has come for you to decide</h4>
-          {{/if}}
-        </div>
-        <!-- Client is connected -->
-        {{#if isClientConnected}}
-          <div class="col s12 m1 l2">
-            {{> network_summary}}
-          </div>
-          <div class="col s12 m1 l2">
-            {{> contribution_summary}}
-          </div>
-        {{else}}
-          <div class="col s12 m2">
-            <br/>
-            <span class="text-light">Try to use me with</span>
-            <li><a class="white-text" href="https://metamask.io/" target="_blank"><b>MetaMask</b></a></li>
-            <li><a class="white-text" href="https://github.com/ethereum/mist/releases/tag/v0.8.8" target="_blank"><b>Mist</b></a></li>
-          </div>
-        {{/if}}
-      </div>
-    </div>
-  </div>
+	<!-- hero section -->
+	<section class="mp-contrib-hero">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 col-sm-6 col-xs-12 text-center hero-text">
+					<h1>Contribution</h1>
+					<p>Currently only for testing purposes</p>
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12 hero-summary">
+					<div class="hero-network-summary">
+						<ul>
+							<li>CONTRIBUTION <br/> Summary</li>
+							<li>
+								<p class="status">Current Price:</p>
+								<p class="value blue">Not started yet</p>
+							</li>
+							<li>
+								<p class="status">Time Left:</p>
+								<p class="value blue">Not started yet</p>
+							</li>
+							<li>
+								<p class="status">ETH Received:</p>
+								<p class="value blue">Not started yet</p>
+							</li>
+						</ul>
+					</div>
+          <div class="hero-network-summary">
+						<ul>
+							<li>Network <br/>Summary</li>
+							<li>
+								<p class="status">Status:</p>
+								<p class="value green">Connected</p>
+							</li>
+							<li>
+								<p class="status">Network:</p>
+								<p class="value green">ropsten</p>
+							</li>
+							<li>
+								<p class="status">Current Block:</p>
+								<p class="value green">177624</p>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
 
-  {{#if isServerConnected}}
-    <!-- Terms&Conditions -->
-    <div class="container">
-      <div class="row">
-        <div class="col s12 m9 offset-m1 l8 offset-l2">
-          <!-- Terms Accepted -->
-          <h4 class="light">Terms and Conditions</h4>
-          <p>I hereby confirm to have read and understood the following document:</p>
-          <ul class="collection">
-            <li class="collection-item">
-              <input {{whenECParamsSet}} type="checkbox" class="filled-in" id="melon-terms" />
-              <label for="melon-terms" class="grey-text text-darken-3">
-                <a href="#" onclick="window.open('melonprotocol.pdf', '_blank', 'fullscreen=yes'); return false;">Melon Contribution Terms</a> (tba)
-              </label>
-            </li>
-          </ul>
-          <p>I hereby acknowledge the following points:</p>
-          <ul class="collection">
-            <li class="collection-item">
-              <input {{whenECParamsSet}} type="checkbox" class="filled-in" id="no-equity" />
-              <label for="no-equity" class="grey-text text-darken-3">Contributor does not receive equity in Melonport AG.</label>
-            </li>
-            <li class="collection-item">
-              <input {{whenECParamsSet}} type="checkbox" class="filled-in" id="workshop" />
-              <label for="workshop" class="grey-text text-darken-3">Contributions will be used to fullfill the workshop mission.</label>
-            </li>
-          </ul>
-          <p>I hereby confirm to be:</p>
-          <ul class="collection">
-            <li class="collection-item">
-              <input {{whenECParamsSet}} type="checkbox" class="filled-in" id="citizen" />
-              <label for="citizen" class="grey-text text-darken-3">Non US citizen nor signing on behalf of a US citizen.</label>
-            </li>
-          </ul>
-          <!-- Documents Read -->
-          <p>I hereby confirm to have read the following documents:</p>
-          <ul class="collection">
-            <li class="collection-item">
-              <input {{whenECParamsSet}} type="checkbox" class="filled-in" id="melon-whitepaper" />
-              <label for="melon-whitepaper" class="grey-text text-darken-3">
-                <a href="#" onclick="window.open('melonprotocol.pdf', '_blank', 'fullscreen=yes'); return false;">Melon Protocol Whitepaper</a> (tba)
-              </label>
-            </li>
-            <li class="collection-item">
-              <input {{whenECParamsSet}} type="checkbox" class="filled-in" id="melon-specifications" />
-              <label for="melon-specifications" class="grey-text text-darken-3">
-                <a href="#" onclick="window.open('melonprotocol.pdf', '_blank', 'fullscreen=yes'); return false;">Melon Specifications</a> (tba)
-              </label>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
+	<section class="mp-contrib-main">
+		<!-- term&condition -->
+		<div class="container mp-contrib-term">
+			<div class="row">
+				<div class="col-md-12">
+					<h2 class="contrib-title">Terms and Conditions</h2>
 
-    <!-- Signature -->
-    <div class="container">
-      <div class="row">
-        <div class="col s12 m9 offset-m1 l8 offset-l2">
-          <form class="signature">
-            <h4 class="light">Confirmation</h4>
-            <p>Please insert the Ethereum address with which you would like to contribute if and only if you have read, acknowledged and agreed upon all of the above terms and conditions.</p>
-            <div class="row">
-              <div class="input-field col s12">
-                <label for="contribution_address" id="contribution-text">Contribution Address</label>
-                <label for="contribution_address" id="success-message" class="green-text text-lighten-1"></label>
-                <label for="contribution_address" id="error-message" class="red-text text-lighten-1"></label>
-                <input {{whenECParamsSet}} id="contribution_address" type="text" length="42" maxlength="42" required>
-              </div>
-            </div>
-            {{#if isAllAccepted}}
-              {{#if isECParamsSet}}
-                <a href="#results" class="signature btn btn-primary">Show results</a>
-              {{else}}
-                <button type="submit" class="signature btn btn-primary">I confirm</button>
-              {{/if}}
-            {{else}}
-              <button type="submit" class="disabled btn btn-primary">I confirm</button>
-            {{/if}}
-          </form>
-        </div>
-      </div>
-    </div>
+					<div class="form-checkbox">
+						<p>I hereby confirm to have read and understood the following document:</p>
+						<div class="checkbox">
+							<label>
+								<input type="checkbox">
+								<span class="input-check"></span>
+								<a href="">Melon Contribution Terms</a> (tba)
+							</label>
+						</div>
+					</div>
+					<div class="form-checkbox">
+						<p>I hereby acknowledge the following points:</p>
+						<div class="checkbox">
+							<label>
+								<input type="checkbox">
+								<span class="input-check"></span>
+								Contributor does not receive equity in Melonport AG.
+							</label>
+						</div>
+						<div class="checkbox">
+							<label>
+								<input type="checkbox">
+								<span class="input-check"></span>
+								Contributions will be used to fullfill the workshop mission.
+							</label>
+						</div>
+					</div>
+					<div class="form-checkbox">
+						<p>I hereby confirm to be:</p>
+						<div class="checkbox">
+							<label>
+								<input type="checkbox">
+								<span class="input-check"></span>
+								Non US citizen nor signing on behalf of a US citizen.
+							</label>
+						</div>
+					</div>
+					<div class="form-checkbox">
+						<p>I hereby confirm to have read the following documents:</p>
+						<div class="checkbox">
+							<label>
+								<input type="checkbox">
+								<span class="input-check"></span>
+								<a href="">Melon Protocol Whitepaper</a> (tba)
+							</label>
+						</div>
+						<div class="checkbox">
+							<label>
+								<input type="checkbox">
+								<span class="input-check"></span>
+								<a href="">Melon Specifications</a> (tba)
+							</label>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
-    {{#if isECParamsSet}}
-    <!-- Result -->
-    <div class="container">
-      <div class="row">
-        <div class="col s12 m9 offset-m1 l8 offset-l2">
-          <div id="results" class="section scrollspy">
-            <h4 class="light">Signature (not offical yet)</h4>
-            <p>With these parameters you can contribute to Melon.</p>
-            {{#if isECParamsSet}}
-              <blockquote>
-                <p> Ethereum Address: <b>{{getContributionAddress}}</b></p>
-                <p> Sig.v is: <b>{{getSigV}}</b></p>
-                <p> Sig.r is: <b>{{getSigR}}</b></p>
-                <p> Sig.s is: <b>{{getSigS}}</b></p>
-              </blockquote>
-              <p> To contribute you can either use the Ethereum Wallet, MetaMask or Mist.</p>
-            {{/if}}
-          </div>
-        </div>
-      </div>
-    </div>
+		<!-- confirm section -->
+		<div class="container mp-contrib-confirm">
+			<div class="row">
+				<div class="col-md-12">
+					<h2 class="contrib-title">Confirmation</h2>
+					<p>Please insert the Ethereum address with which you would like to contribute if and only if you have read, acknowledged and agreed upon all of the above terms and conditions.</p>
 
-    {{#if isClientConnected}}
-      <!-- Send Funds -->
-      <div class="container">
-        <div class="row">
-          <div class="col s12 m9 offset-m1 l8 offset-l2">
-              <form class="amount">
-                <h4 class="light">Send Funds</h4>
-                <p>Please insert the amount of Ether you'd like to contribute from your contribution address: {{getContributionAddress}}</p>
-                <div class="row">
-                  <div class="input-field col s12">
-                    <input id="ether_amount" type="number" step="any" class="validate">
-                    <label for="ether_amount">Ether Amount</label>
-                  </div>
-                </div>
-                <button type="submit" class="amount btn btn-primary">Send</button>
-              </form>
-          </div>
-        </div>
-      </div>
-    {{else}}
-      <!-- Send Funds -->
-      <div class="container">
-        <div class="row">
-          <div class="col s12 m9 offset-m1 l8 offset-l2">
-            <div id="results" class="section scrollspy">
-              <h4 class="light">Send Funds</h4>
-              <p>You are currently not connected to this decentralised application. You can either use this application in conjunction with:</p>
-              <blockquote>
-                <p><a href="https://metamask.io/" target="_blank"><b>MetaMask</b></a></p>
-                <p><a href="https://github.com/ethereum/mist/releases/tag/v0.8.8" target="_blank"><b>Mist</b></a></p>
-              </blockquote>
-              <p>Or by sending funds using the Ethereum Wallet. For this you can see the video below for instructions:</p>
-              <blockquote>
-                <p><a href="https:/melonport.com/" target="_blank"><b>Ethereum Wallet Video</b></a></p>
-              </blockquote>
-              <p> Thank you for contributing.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      {{/if}}
-    {{/if}}
+					<div class="form-inline mp-form">
+						<div class="form-group col-md-10 col-sm-10 col-xs-10 has-feedback">
+							<input type="text" class="form-control" id="inputSuccess2" aria-describedby="inputSuccess2Status" placeholder="0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa">
+							<span class="form-control-feedback" aria-hidden="true">Contribution Address is valid.</span>
+						</div>
+						<button type="submit" class="btn col-md-2 col-sm-2 col-xs-2 btn-main">I CONFIRM</button>
+					</div>
 
-  {{else}}
-    <!-- Not connected to the node -->
-    <div class="container">
-      <div class="row">
-        <div class="col s12 m9 offset-m1 l8 offset-l2">
-          <div id="results" class="section scrollspy">
-            <h4 class="light">Ethereum node down</h4>
-            <p>Unfortunately the Ethereum node seems to be down. <a href="mailto:team@melonport.com?subject=Ethereum Node Down on Contribution app" target="_top">Please contact us</a>. Thanks.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  {{/if}}
+				</div>
+			</div>
+		</div>
+
+		<!-- signature section -->
+		<div class="container mp-contrib-sign">
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<h2 class="contrib-title">Signature (not official yet)</h2>
+					<p>With these parameters you can contribute to Melon.</p>
+					<ul>
+						<li>Ethereum Address: <strong>0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</strong></li>
+						<li>Sig.v is: <strong>27</strong></li>
+						<li>Sig.r is: <strong>0xcd2a7875743b347d8fb8380ee85b96779532ecc85c4c6635b949ae5ef1bdcec</strong></li>
+						<li>Sig.s is: <strong>0x644f29c1d4212a7875743b347d8fb8380ee85b96779532ecc5961f763fe</strong></li>
+					</ul>
+					<p>To contribute you can either use the Ethereum Wallet, MetaMask or Mist.</p>
+				</div>
+			</div>
+		</div>
+
+		<!-- send fund section -->
+		<div class="container mp-contrib-send">
+			<div class="row">
+				<div class="col-md-12">
+					<h2 class="contrib-title">Send Funds</h2>
+					<p>Please insert the amount of Ether you'd like to contribute from your contribution address: <br/>0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+
+					<div class="form-inline mp-form">
+						<div class="form-group col-md-10 col-sm-10 col-xs-10">
+							<input type="text" class="form-control" id="send_funds" aria-describedby="send_funds_status" placeholder="Ether Amount">
+						</div>
+						<button type="submit" class="btn col-md-2 col-sm-2 col-xs-2 btn-main">SEND</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
 </template>
