@@ -201,8 +201,8 @@ Template.contribution.events({
       melonContract = MelonToken.at(result);
       return melonContract.balanceOf(Session.get('contributionAddress'));
     }).then((result) => {
-      console.log(`Tokens bought: ${resutl.toNumber()}`);
-      alert(`You have now: ${resutl.toNumber()} Melon Token!`);
+      console.log(`Tokens bought: ${result.toNumber()}`);
+      alert(`You have now: ${result.toNumber()} Melon Token!`);
     });
   },
 });
