@@ -162,7 +162,6 @@
                 <form class="amount">
                   <h2 class="contrib-title">Send Funds</h2>
                   <p>Please insert the amount of Ether you'd like to contribute from your contribution address: <br/>{{getContributionAddress}}</p>
-
                   <div class="form-inline mp-form">
                     <div class="form-group col-md-10 col-sm-10 col-xs-10 has-feedback">
                       <input type="number" step="any" class="form-control" id="ether_amount" placeholder="Ether Amount">
@@ -170,7 +169,11 @@
                     </div>
                     <button type="submit" class="amount btn col-md-2 col-sm-2 col-xs-2 btn-main">SEND</button>
                   </div>
+                  <br>
                 </form>
+              </div>
+              <div class="col-md-9 col-md-offset-1 col-lg-8 col-lg-offset-2">
+                <p id='txStatus'></p>
               </div>
             </div>
           </div>

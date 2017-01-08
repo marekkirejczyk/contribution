@@ -89,7 +89,10 @@ Template.contribution.helpers({
   },
   isRopstenNetwork() {
     return Session.get('network') === 'Ropsten';
-  },  
+  },
+  isSending() {
+    return Session.get('isSending');
+  },
 });
 
 
@@ -191,6 +194,7 @@ Template.contribution.events({
 
     let melonContract;
 
+    template.find('#txStatus').innerHTML = 'Sending of funds initiated.'
     contributionContract.buy(
       Session.get('sig.v'),
       Session.get('sig.r'),
@@ -198,14 +202,14 @@ Template.contribution.events({
       {from: Session.get('contributionAddress'), value: web3.toWei(etherAmount, 'ether') })
     .then(() => {
       // TODO msg is sending
-      // template.find('#error-message').innerHTML = 'Contribution Address is invalid.'
+      template.find('#txStatus').innerHTML = 'Funds have been sent'
       return contributionContract.melonToken();
     }).then((result) => {
       melonContract = MelonToken.at(result);
       return melonContract.balanceOf(Session.get('contributionAddress'));
     }).then((result) => {
-      console.log(`Tokens bought: ${result.toNumber()}`);
-      alert(`You have now: ${result.toNumber()} Melon Token!`);
+      const melonsBought = web3.fromWei(result.toNumber(), 'ether');
+      template.find('#txStatus').innerHTML = `Funds have been sent! You own: ${melonsBought} MLN. Thanks you for contribution.`
     });
   },
 });
