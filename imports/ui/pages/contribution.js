@@ -55,7 +55,7 @@ Template.contribution.helpers({
       Session.get('citizenChecked');
   },
   isDocumentsRead() {
-    return Session.get('melon-whitepaper') && Session.get('melon-specifications');
+    return Session.get('melon-greenpaper') && Session.get('melon-specifications');
   },
   isAllAccepted() {
     const numAllTerms = 6;
@@ -64,7 +64,7 @@ Template.contribution.helpers({
       Session.get('no-equity') +
       Session.get('workshop') +
       Session.get('citizenChecked') +
-      Session.get('melon-whitepaper') +
+      Session.get('melon-greenpaper') +
       Session.get('melon-specifications');
     return numAccTerms == numAllTerms;
   },
@@ -124,8 +124,8 @@ Template.contribution.events({
         Session.set('no-equity', template.$('input')[i].checked);
       } else if (template.$('input')[i].id == 'citizen') {
         Session.set('citizenChecked', template.$('input')[i].checked);
-      } else if (template.$('input')[i].id == 'melon-whitepaper') {
-        Session.set('melon-whitepaper', template.$('input')[i].checked);
+      } else if (template.$('input')[i].id == 'melon-greenpaper') {
+        Session.set('melon-greenpaper', template.$('input')[i].checked);
       } else if (template.$('input')[i].id == 'melon-specifications') {
         Session.set('melon-specifications', template.$('input')[i].checked);
       }
