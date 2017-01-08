@@ -87,6 +87,9 @@ Template.contribution.helpers({
   getSigS() {
     return Session.get('sig.s');
   },
+  isRopstenNetwork() {
+    return Session.get('network') === 'Ropsten';
+  },  
 });
 
 
