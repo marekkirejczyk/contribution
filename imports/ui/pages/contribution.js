@@ -4,13 +4,14 @@ import { FlowRouter } from 'meteor/kadira:flow-router';
 import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
 
+import { Toast } from 'meteor/fourquet:jquery-toast';
+
 import { async } from 'async';
 import { assert } from 'assert';
 import { BigNumber } from 'bignumber.js';
 var sha256 = require('js-sha256').sha256;
 
 import './contribution.html';
-
 
 Template.contribution.onCreated(function contributionOnCreated() {
   Session.set('isECParamsSet', false);
@@ -22,10 +23,23 @@ Template.contribution.onCreated(function contributionOnCreated() {
       console.log(err);
     }
   });
+  Toast.options = {
+    closeButton: false,
+    progressBar: false,
+    positionClass: 'toast-bottom-full-width',
+    showEasing: 'swing',
+    hideEasing: 'linear',
+    showMethod: 'fadeIn',
+    hideMethod: 'fadeOut',
+    timeOut: 8000,
+  };
 });
 
 
 Template.contribution.helpers({
+  isStarted() {
+    return Session.get('melon-terms');
+  },
   isTermsAccepted() {
     return Session.get('melon-terms') &&
       Session.get('no-equity') &&
@@ -103,13 +117,12 @@ Template.contribution.events({
       }
     }
   },
-  'click .disabled'(event, instance) {
+  'click .disabled'(event, template) {
     // Prevent default browser form submit
     event.preventDefault();
-
-    Materialize.toast('Not all terms and conditions accepted.', 8000, 'blue');
+    Toast.info('Not all terms and conditions accepted.');
   },
-  'submit .signature'(event, instance) {
+  'submit .signature'(event, template) {
     // Prevent default browser form submit
     event.preventDefault();
 
@@ -119,7 +132,7 @@ Template.contribution.events({
 
     // Check Address is valid, proof of only allowed IPs
     if (web3.isAddress(address) === false) {
-      Materialize.toast('Invalid contribution address', 8000, 'blue');
+      Toast.info('Invalid contribution address');
       return;
     }
     Meteor.call('contributors.insert', address);
@@ -147,16 +160,17 @@ Template.contribution.events({
           Session.set('sig.r', r);
           Session.set('sig.s', s);
           Session.set('isECParamsSet', true);
-          Materialize.toast('Signature successfully generated', 8000, 'green');
+          Toast.success('Signature successfully generated');
+
         } catch (err) {
-          Materialize.toast('Ethereum node seems to be down, please contact: team@melonport.com. Thanks.', 12000, 'red');
+          Toast.error('Ethereum node seems to be down, please contact: team@melonport.com. Thanks.', err);
         }
       } else {
         console.log(err);
       }
     });
   },
-  'submit .amount'(event, instance) {
+  'submit .amount'(event, template) {
     // Prevent default browser form submit
     event.preventDefault();
 

@@ -22,6 +22,7 @@ shell-server@0.2.1            # Server-side component of the `meteor shell` comm
 fourseven:scss                # SASS
 poetic:materialize-scss       # Material Design Template
 fortawesome:fontawesome       # Icons and fonts
+fourquet:jquery-toast         # Toast
 
 # User Experience
 kadira:flow-router            # Routing of pages
