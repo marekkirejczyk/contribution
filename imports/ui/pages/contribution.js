@@ -186,6 +186,8 @@ Template.contribution.events({
     const target = event.target;
     const etherAmount = target.ether_amount.value;
 
+    let melonContract;
+
     contributionContract.buy(
       Session.get('sig.v'),
       Session.get('sig.r'),
@@ -194,9 +196,13 @@ Template.contribution.events({
     .then(() => {
       // TODO msg is sending
       // template.find('#error-message').innerHTML = 'Contribution Address is invalid.'
+      return contributionContract.melonToken();
+    }).then((result) => {
+      melonContract = MelonToken.at(result);
       return melonContract.balanceOf(Session.get('contributionAddress'));
     }).then((result) => {
       console.log(`Tokens bought: ${resutl.toNumber()}`);
+      alert(`You have now: ${resutl.toNumber()} Melon Token!`);
     });
   },
 });
