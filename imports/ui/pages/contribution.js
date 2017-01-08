@@ -3,7 +3,6 @@ import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
-
 import { Toast } from 'meteor/fourquet:jquery-toast';
 
 import { async } from 'async';
@@ -11,7 +10,16 @@ import { assert } from 'assert';
 import { BigNumber } from 'bignumber.js';
 var sha256 = require('js-sha256').sha256;
 
+import Contribution from '/imports/lib/assets/contracts/Contribution.sol.js';
+import MelonToken from '/imports/lib/assets/contracts/MelonToken.sol.js';
+
 import './contribution.html';
+
+// Creation of contract object
+Contribution.setProvider(web3.currentProvider);
+//TODO fix default
+const contributionContract = Contribution.at(Contribution.all_networks['default'].address);
+MelonToken.setProvider(web3.currentProvider);
 
 Template.contribution.onCreated(function contributionOnCreated() {
   Session.set('isECParamsSet', false);
@@ -174,6 +182,21 @@ Template.contribution.events({
     // Prevent default browser form submit
     event.preventDefault();
 
-    alert('Contribution has not started yet');
+    // Get value from form element
+    const target = event.target;
+    const etherAmount = target.ether_amount.value;
+
+    contributionContract.buy(
+      Session.get('sig.v'),
+      Session.get('sig.r'),
+      Session.get('sig.s'),
+      {from: Session.get('contributionAddress'), value: web3.toWei(etherAmount, 'ether') })
+    .then(() => {
+      // TODO msg is sending
+      // template.find('#error-message').innerHTML = 'Contribution Address is invalid.'
+      return melonContract.balanceOf(Session.get('contributionAddress'));
+    }).then((result) => {
+      console.log(`Tokens bought: ${resutl.toNumber()}`);
+    });
   },
 });

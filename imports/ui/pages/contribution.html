@@ -118,7 +118,7 @@
 
               {{#if isAllAccepted}}
                 {{#if isECParamsSet}}
-                  <button type="submit" class="signature btn col-md-2 col-sm-2 col-xs-2 btn-main"><a href="#results">SHOW RESULTS</a></button>
+                  <button type="submit" class="btn col-md-2 col-sm-2 col-xs-2 btn-main"><a href="#results">SHOW RESULTS</a></button>
                 {{else}}
                   <button type="submit" class="signature btn col-md-2 col-sm-2 col-xs-2 btn-main">I CONFIRM</button>
                 {{/if}}
@@ -157,15 +157,18 @@
     		<div class="container mp-contrib-send">
     			<div class="row">
     				<div class="col-md-9 col-md-offset-1 col-lg-8 col-lg-offset-2">
-    					<h2 class="contrib-title">Send Funds</h2>
-    					<p>Please insert the amount of Ether you'd like to contribute from your contribution address: <br/>{{getContributionAddress}}</p>
+              <form class="amount">
+      					<h2 class="contrib-title">Send Funds</h2>
+      					<p>Please insert the amount of Ether you'd like to contribute from your contribution address: <br/>{{getContributionAddress}}</p>
 
-    					<div class="form-inline mp-form">
-    						<div class="form-group col-md-10 col-sm-10 col-xs-10">
-    							<input type="text" class="form-control" id="send_funds" aria-describedby="send_funds_status" placeholder="Ether Amount">
-    						</div>
-    						<button type="submit" class="btn col-md-2 col-sm-2 col-xs-2 btn-main">SEND</button>
-    					</div>
+      					<div class="form-inline mp-form">
+                  <div class="form-group col-md-10 col-sm-10 col-xs-10 has-feedback">
+      							<input type="number" step="any" class="form-control" id="ether_amount" placeholder="Ether Amount">
+                    <!-- <span class="form-control-feedback" id="melon-amount-message" aria-hidden="true">Melon Amount</span> -->
+      						</div>
+      						<button type="submit" class="amount btn col-md-2 col-sm-2 col-xs-2 btn-main">SEND</button>
+      					</div>
+              </form>
     				</div>
     			</div>
     		</div>
