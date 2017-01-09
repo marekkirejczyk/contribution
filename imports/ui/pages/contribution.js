@@ -107,11 +107,11 @@ Template.contribution.events({
     if (web3.isAddress(event.currentTarget.value) === false) {
       template.find('#contribution-text').innerHTML = '';
       template.find('#success-message').innerHTML = '';
-      template.find('#error-message').innerHTML = 'Contribution Address is invalid.';
+      template.find('#error-message').innerHTML = 'Ethereum Address is invalid.';
     } else {
       template.find('#contribution-text').innerHTML = '';
       template.find('#error-message').innerHTML = '';
-      template.find('#success-message').innerHTML = 'Contribution Address is valid.';
+      template.find('#success-message').innerHTML = 'Ethereum Address is valid.';
     }
   },
   'click input'(event, template) {
@@ -194,7 +194,7 @@ Template.contribution.events({
 
     let melonContract;
 
-    template.find('#txStatus').innerHTML = 'Sending of funds initiated.'
+    template.find('#txStatus').innerHTML = 'Sending of funds initiated. Please confirm the transaction and wait a few seconds for it to process.'
     contributionContract.buy(
       Session.get('sig.v'),
       Session.get('sig.r'),
@@ -202,14 +202,14 @@ Template.contribution.events({
       {from: Session.get('contributionAddress'), value: web3.toWei(etherAmount, 'ether') })
     .then(() => {
       // TODO msg is sending
-      template.find('#txStatus').innerHTML = 'Funds have been sent'
+      template.find('#txStatus').innerHTML = 'Funds have been sent.'
       return contributionContract.melonToken();
     }).then((result) => {
       melonContract = MelonToken.at(result);
       return melonContract.balanceOf(Session.get('contributionAddress'));
     }).then((result) => {
       const melonsBought = web3.fromWei(result.toNumber(), 'ether');
-      template.find('#txStatus').innerHTML = `Funds have been sent! You own: ${melonsBought} MLN. Thanks you for contribution.`
+      template.find('#txStatus').innerHTML = `Funds have been sent! You own: ${melonsBought} MLN. Thank you for contribution.`
     });
   },
 });
