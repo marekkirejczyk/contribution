@@ -209,7 +209,7 @@ Template.contribution.events({
       return melonContract.balanceOf(Session.get('contributionAddress'));
     }).then((result) => {
       const melonsBought = web3.fromWei(result.toNumber(), 'ether');
-      template.find('#txStatus').innerHTML = `Funds have been sent! You own: ${melonsBought} MLN. Thank you for contribution.`
+      template.find('#txStatus').innerHTML = `Funds have been sent! You own: ${melonsBought} MLN. Thank you for your contribution.`
     });
   },
 });

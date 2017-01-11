@@ -133,25 +133,6 @@
 		</div>
 
     {{#if isECParamsSet}}
-  		<!-- signature section -->
-  		<div class="container mp-contrib-sign">
-  			<div class="row">
-  				<div class="col-md-9 col-md-offset-1 col-lg-8 col-lg-offset-2 col-sm-12 col-xs-12">
-            <div id="results" class="section scrollspy">
-    					<h2 class="contrib-title">Signature (not official yet)</h2>
-    					<p>With these parameters you can contribute to Melon.</p>
-    					<ul>
-    						<li>Ethereum Address: <strong>{{getContributionAddress}}</strong></li>
-    						<li>Sig.v is: <strong>{{getSigV}}</strong></li>
-    						<li>Sig.r is: <strong>{{getSigR}}</strong></li>
-    						<li>Sig.s is: <strong>{{getSigS}}</strong></li>
-    					</ul>
-    					<p>To contribute you can either use the Ethereum Wallet, MetaMask or Mist.</p>
-    				</div>
-  				</div>
-  			</div>
-  		</div>
-
       {{#if isClientConnected}}
         <!-- TODO change to main before feb 15 -->
         {{#if isRopstenNetwork}}
@@ -159,18 +140,20 @@
           <div class="container mp-contrib-send">
             <div class="row">
               <div class="col-md-9 col-md-offset-1 col-lg-8 col-lg-offset-2">
-                <form class="amount">
-                  <h2 class="contrib-title">Send Funds</h2>
-                  <p>Please insert the amount of Ether you'd like to contribute from your contribution address: <br/>{{getContributionAddress}}</p>
-                  <div class="form-inline mp-form">
-                    <div class="form-group col-md-10 col-sm-10 col-xs-10 has-feedback">
-                      <input type="number" step="any" class="form-control" id="ether_amount" placeholder="Ether Amount">
-                      <!-- <span class="form-control-feedback" id="melon-amount-message" aria-hidden="true">Melon Amount</span> -->
+                <div id="results" class="section scrollspy">
+                  <form class="amount">
+                    <h2 class="contrib-title">Send Funds</h2>
+                    <p>Please insert the amount of Ether you'd like to contribute from your Ethereum address to Melon.</p>
+                    <div class="form-inline mp-form">
+                      <div class="form-group col-md-10 col-sm-10 col-xs-10 has-feedback">
+                        <input type="number" step="any" class="form-control" id="ether_amount" placeholder="Ether Amount">
+                        <!-- <span class="form-control-feedback" id="melon-amount-message" aria-hidden="true">Melon Amount</span> -->
+                      </div>
+                      <button type="submit" class="amount btn col-md-2 col-sm-2 col-xs-2 btn-main">SEND</button>
                     </div>
-                    <button type="submit" class="amount btn col-md-2 col-sm-2 col-xs-2 btn-main">SEND</button>
-                  </div>
-                  <br>
-                </form>
+                    <br>
+                  </form>
+                </div>
               </div>
               <div class="col-md-9 col-md-offset-1 col-lg-8 col-lg-offset-2">
                 <p id='txStatus'></p>
@@ -183,15 +166,34 @@
             <div class="container mp-contrib-term">
               <div class="row">
                 <div class="col-md-9 col-md-offset-1 col-lg-8 col-lg-offset-2">
-                  <!-- Terms Accepted -->
-                  <h2 class="contrib-title">To send funds directly please use the Ropsten Testnet untill February 15th 2017</h2>
+                  <div id="results" class="section scrollspy">
+                    <!-- Terms Accepted -->
+                    <h2 class="contrib-title">To send funds directly please use the Ropsten Testnet until live deployment on February 15th 2017</h2>
+                  </div>
                 </div>
               </div>
             </div>
           </section>
         {{/if}}
       {{else}}
-
+        <!-- signature section -->
+    		<div class="container mp-contrib-sign">
+    			<div class="row">
+    				<div class="col-md-9 col-md-offset-1 col-lg-8 col-lg-offset-2 col-sm-12 col-xs-12">
+              <div id="results" class="section scrollspy">
+      					<h2 class="contrib-title">Signature (not official yet)</h2>
+      					<p>With these parameters you can contribute to Melon.</p>
+      					<ul>
+      						<li>Ethereum Address: <strong>{{getContributionAddress}}</strong></li>
+      						<li>Sig.v is: <strong>{{getSigV}}</strong></li>
+      						<li>Sig.r is: <strong>{{getSigR}}</strong></li>
+      						<li>Sig.s is: <strong>{{getSigS}}</strong></li>
+      					</ul>
+      					<p>To contribute you can either use an Ethereum Wallet, MetaMask or Mist.</p>
+      				</div>
+    				</div>
+    			</div>
+    		</div>
       {{/if}}
     {{/if}}
 
