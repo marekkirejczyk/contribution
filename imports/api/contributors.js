@@ -13,13 +13,12 @@ Contribution.setProvider(web3.currentProvider);
 //TODO fix default
 const contributionContract = Contribution.at(Contribution.all_networks['default'].address);
 MelonToken.setProvider(web3.currentProvider);
-
 let melonContract;
 contributionContract.melonToken()
   .then((result) => {
     melonContract = MelonToken.at(result);
-    console.log(result);
   });
+
 let etherRaised = 0;
 let priceRate = 0;
 let timeLeft = 0;

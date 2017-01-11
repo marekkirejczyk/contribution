@@ -1,42 +1,21 @@
 <template name="contribution_summary">
 
   <div class="hero-network-summary">
-
-    <!-- Client is connected -->
-    {{#if isClientConnected}}
-      <ul>
-        <li>CONTRIBUTION <br/> Summary</li>
-        <li>
-          <p class="status">Current Price:</p>
-          <p class="value blue">{{currentPrice}} MLN/ETH</p>
-        </li>
-        <li>
-          <p class="status">Next Price in:</p>
-          <p class="value blue">{{timeLeft}}</p>
-        </li>
-        <li>
-          <p class="status">ETH Received:</p>
-          <p class="value blue">{{etherRaised}}</p>
-        </li>
-      </ul>
-    {{else}}
-      <ul>
-        <li>CONTRIBUTION <br/> Summary</li>
-        <li>
-          <p class="status">Current Price:</p>
-          <p class="value blue">Not Connected</p>
-        </li>
-        <li>
-          <p class="status">Next Price in:</p>
-          <p class="value blue">Not Connected</p>
-        </li>
-        <li>
-          <p class="status">ETH Received:</p>
-          <p class="value blue">Not Connected</p>
-        </li>
-      </ul>
-    {{/if}}
-
+    <ul>
+      <li>CONTRIBUTION <br/> Summary</li>
+      <li>
+        <p class="status">Current Price:</p>
+        <p class="value blue">{{currentPrice}} MLN/ETH</p>
+      </li>
+      <li>
+        <p class="status">Next Price in:</p>
+        <p class="value blue">{{timeLeft}}</p>
+      </li>
+      <li>
+        <p class="status">ETH Received:</p>
+        <p class="value blue">{{etherRaised}}</p>
+      </li>
+    </ul>
   </div>
 
 </template>
