@@ -37,15 +37,24 @@ function parseContracts() {
 
   let startTime = 0;
   let endTime = 0;
-  melonContract.startTime()
+
+  contributionContract.melonToken()
+    .then((result) => {
+      melonContract = MelonToken.at(result);
+      return melonContract.startTime();
+    })
     .then((result) => {
       startTime = result.toNumber();
       return melonContract.endTime();
     })
     .then((result) => {
-      // TODO if starttime > now
-      endTime = result.toNumber();
-      timeLeft = endTime - Math.floor(Date.now() / 1000);
+      const now = Math.floor(Date.now() / 1000);
+      if (now < startTime) {
+        timeLeft = "Not started yet";
+      } else {
+        endTime = result.toNumber();
+        timeLeft = endTime - now;
+      }
     });
 }
 
