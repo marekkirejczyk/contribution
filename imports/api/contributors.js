@@ -62,7 +62,7 @@ function parseContracts() {
  * Startup code
  */
 Meteor.startup(() => {
-  Meteor.setInterval(parseContracts, 10003);
+  Meteor.setInterval(parseContracts, 10000);
 });
 
 
@@ -84,10 +84,6 @@ Meteor.methods({
   },
   'timeLeft'() {
     return timeLeft;
-  },
-  'ipaddress'() {
-    // Return IP as seen from the Server
-    return this.connection.clientAddress;
   },
   'ipaddress'() {
     // Return IP as seen from the Server
