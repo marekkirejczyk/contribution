@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
+import { HTTP } from 'meteor/http';
 import { check } from 'meteor/check';
-import { BigNumber } from 'bignumber.js';
 
 export const Contributors = new Mongo.Collection('contributors');
 
@@ -59,32 +59,27 @@ Meteor.startup(() => {
 
 
 Meteor.methods({
-  'isServerConnected'() {
-    return web3.isConnected();
-  },
-  'sign'(value) {
+  isServerConnected: () => web3.isConnected(),
+  sign: (value) => {
     check(value, String);
     // Sign value with coinbase account
     const signer = web3.eth.coinbase;
     return web3.eth.sign(signer, value);
   },
-  'etherRaised'() {
-    return etherRaised;
-  },
-  'priceRate'() {
-    return priceRate;
-  },
-  'timeLeft'() {
-    return timeLeft;
-  },
-  'ipaddress'() {
+  etherRaised: () => etherRaised,
+  priceRate: () => priceRate,
+  timeLeft: () => timeLeft,
+  ipaddress: () => {
     // Return IP as seen from the Server
     return this.connection.clientAddress;
   },
-  'contributors.insert'(address) {
+  isUnitedStates: () => HTTP.get('https://ifconfig.co/json').data.country === 'United States',
+  'contributors.insert': (address) => {
     check(address, String);
+    const data = HTTP.get('https://ifconfig.co/json').data;
     Contributors.insert({
-      ip: this.connection.clientAddress,
+      country: data.country,
+      ip: data.ip,
       address,
       createdAt: new Date(),
     });

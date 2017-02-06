@@ -1,6 +1,5 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
-import { FlowRouter } from 'meteor/kadira:flow-router';
 import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
 import { Toast } from 'meteor/fourquet:jquery-toast';
@@ -21,7 +20,7 @@ MelonToken.setProvider(web3.currentProvider);
 const contributionContract = Contribution.at('0x446BC4cAAcFC0Faaf2f3c0af6a665cDe5c4cCd7d');
 const melonContract = MelonToken.at('0x231fA21e58d7658593cfF50883e3Ee4D6e4E4b78');
 
-Template.contribution.onCreated(function contributionOnCreated() {
+Template.contribution.onCreated(() => {
   Session.set('isECParamsSet', false);
   Session.set('isServerConnected', true);
   Meteor.call('isServerConnected', (err, result) => {
@@ -66,14 +65,14 @@ Template.contribution.helpers({
       Session.get('citizenChecked') +
       Session.get('melon-greenpaper') +
       Session.get('melon-specifications');
-    return numAccTerms == numAllTerms;
+    return numAccTerms === numAllTerms;
   },
   isECParamsSet() {
     return Session.get('isECParamsSet');
   },
   whenECParamsSet() {
-    if (Session.get('isECParamsSet'))
-      return 'disabled';
+    if (Session.get('isECParamsSet')) return 'disabled';
+    return '';
   },
   getContributionAddress() {
     return Session.get('contributionAddress');
@@ -103,7 +102,8 @@ Template.contribution.onRendered(function contributionOnRendered() {
 
 
 Template.contribution.events({
-  'input #contribution_address'(event, template) {
+  'input #contribution_address': (event, templateInstance) => {
+    const template = templateInstance;
     if (web3.isAddress(event.currentTarget.value) === false) {
       template.find('#contribution-text').innerHTML = '';
       template.find('#success-message').innerHTML = '';
@@ -114,102 +114,108 @@ Template.contribution.events({
       template.find('#success-message').innerHTML = 'Ethereum Address is valid.';
     }
   },
-  'click input'(event, template) {
-    for (var i = 0; i < template.$('input').length; ++i) {
-      if (template.$('input')[i].id == 'melon-terms') {
+  'click input': (event, templateInstance) => {
+    const template = templateInstance;
+    for (let i = 0; i < template.$('input').length; i += 1) {
+      if (template.$('input')[i].id === 'melon-terms') {
         Session.set('melon-terms', template.$('input')[i].checked);
-      } else if (template.$('input')[i].id == 'workshop') {
+      } else if (template.$('input')[i].id === 'workshop') {
         Session.set('workshop', template.$('input')[i].checked);
-      } else if (template.$('input')[i].id == 'no-equity') {
+      } else if (template.$('input')[i].id === 'no-equity') {
         Session.set('no-equity', template.$('input')[i].checked);
-      } else if (template.$('input')[i].id == 'citizen') {
+      } else if (template.$('input')[i].id === 'citizen') {
         Session.set('citizenChecked', template.$('input')[i].checked);
-      } else if (template.$('input')[i].id == 'melon-greenpaper') {
+      } else if (template.$('input')[i].id === 'melon-greenpaper') {
         Session.set('melon-greenpaper', template.$('input')[i].checked);
-      } else if (template.$('input')[i].id == 'melon-specifications') {
+      } else if (template.$('input')[i].id === 'melon-specifications') {
         Session.set('melon-specifications', template.$('input')[i].checked);
       }
     }
   },
-  'click .disabled'(event, template) {
+  'click .disabled': (event) => {
     // Prevent default browser form submit
     event.preventDefault();
     Toast.info('Not all terms and conditions accepted.');
   },
-  'submit .signature'(event, template) {
+  'submit .signature': (event) => {
     // Prevent default browser form submit
     event.preventDefault();
 
     // Get value from form element
     const target = event.target;
-    const address = target.contribution_address.value
+    const address = target.contribution_address.value;
 
     // Check Address is valid, proof of only allowed IPs
     if (web3.isAddress(address) === false) {
       Toast.info('Invalid contribution address');
       return;
     }
-    Meteor.call('contributors.insert', address);
 
-    // Sign Hash of Address, i.e. confirming User agreed to terms and conditions.
-    const hash = '0x' + sha256(new Buffer(address.slice(2),'hex'));
-    Meteor.call('sign', hash, (err, result) => {
-      if(!err) {
-        let sig = result;
-        try {
-          var r = sig.slice(0, 66);
-          var s = '0x' + sig.slice(66, 130);
-          var v = parseInt('0x' + sig.slice(130, 132), 16);
-          if (sig.length<132) {
-            //web3.eth.sign shouldn't return a signature of length<132, but if it does...
-            sig = sig.slice(2);
-            r = '0x' + sig.slice(0, 64);
-            s = '0x00' + sig.slice(64, 126);
-            v = parseInt('0x' + sig.slice(126, 128), 16);
-          }
-          if (v!=27 && v!=28) v+=27;
-          // Let user know
-          Session.set('contributionAddress', address);
-          Session.set('sig.v', v);
-          Session.set('sig.r', r);
-          Session.set('sig.s', s);
-          Session.set('isECParamsSet', true);
-          Toast.success('Signature successfully generated');
-
-        } catch (err) {
-          Toast.error('Ethereum node seems to be down, please contact: team@melonport.com. Thanks.', err);
+    Meteor.call('isUnitedStates', (err, res) => {
+      if (!err) {
+        if (res === true) {
+          Toast.info('Unfortunately we cannot accept contributions form the United States');
+        } else {
+          Meteor.call('contributors.insert', address);
+          // Sign Hash of Address, i.e. confirming User agreed to terms and conditions.
+          const hash = '0x' + sha256(new Buffer(address.slice(2),'hex'));
+          Meteor.call('sign', hash, (err, result) => {
+            if(!err) {
+              let sig = result;
+              try {
+                var r = sig.slice(0, 66);
+                var s = '0x' + sig.slice(66, 130);
+                var v = parseInt('0x' + sig.slice(130, 132), 16);
+                if (sig.length<132) {
+                  //web3.eth.sign shouldn't return a signature of length<132, but if it does...
+                  sig = sig.slice(2);
+                  r = '0x' + sig.slice(0, 64);
+                  s = '0x00' + sig.slice(64, 126);
+                  v = parseInt('0x' + sig.slice(126, 128), 16);
+                }
+                if (v!=27 && v!=28) v+=27;
+                // Let user know
+                Session.set('contributionAddress', address);
+                Session.set('sig.v', v);
+                Session.set('sig.r', r);
+                Session.set('sig.s', s);
+                Session.set('isECParamsSet', true);
+                Toast.success('Signature successfully generated');
+              } catch (err) {
+                Toast.error('Ethereum node seems to be down, please contact: team@melonport.com. Thanks.', err);
+              }
+            } else {
+              console.log(err);
+            }
+          });
         }
-      } else {
-        console.log(err);
       }
     });
   },
-  'submit .amount'(event, template) {
+  'submit .amount': (event, templateInstance) => {
     // Prevent default browser form submit
     event.preventDefault();
+    const template = templateInstance;
 
     // Get value from form element
     const target = event.target;
     const etherAmount = target.ether_amount.value;
 
-    let melonContract;
-
-    template.find('#txStatus').innerHTML = 'Sending of funds initiated. Please confirm the transaction and wait a few seconds for it to process.'
+    template.find('#txStatus').innerHTML =
+      'Sending of funds initiated. Please confirm the transaction and wait a few seconds for it to process.';
     contributionContract.buy(
       Session.get('sig.v'),
       Session.get('sig.r'),
       Session.get('sig.s'),
-      {from: Session.get('contributionAddress'), value: web3.toWei(etherAmount, 'ether') })
+      { from: Session.get('contributionAddress'), value: web3.toWei(etherAmount, 'ether') })
     .then(() => {
       // TODO msg is sending
-      template.find('#txStatus').innerHTML = 'Funds have been sent.'
-      return contributionContract.melonToken();
-    }).then((result) => {
-      melonContract = MelonToken.at(result);
+      template.find('#txStatus').innerHTML = 'Funds have been sent.';
       return melonContract.balanceOf(Session.get('contributionAddress'));
     }).then((result) => {
       const melonsBought = web3.fromWei(result.toNumber(), 'ether');
-      template.find('#txStatus').innerHTML = `Funds have been sent! You own: ${melonsBought} MLN. Thank you for your contribution.`
+      template.find('#txStatus').innerHTML =
+        `Funds have been sent! You own: ${melonsBought} MLN. Thank you for your contribution.`;
     });
   },
 });
