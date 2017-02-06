@@ -10,14 +10,9 @@ import MelonToken from '/imports/lib/assets/contracts/MelonToken.sol.js';
 
 // Creation of contract object
 Contribution.setProvider(web3.currentProvider);
-//TODO fix default
-const contributionContract = Contribution.at(Contribution.all_networks['default'].address);
 MelonToken.setProvider(web3.currentProvider);
-let melonContract;
-contributionContract.melonToken()
-  .then((result) => {
-    melonContract = MelonToken.at(result);
-  });
+const contributionContract = Contribution.at('0x446BC4cAAcFC0Faaf2f3c0af6a665cDe5c4cCd7d');
+const melonContract = MelonToken.at('0x231fA21e58d7658593cfF50883e3Ee4D6e4E4b78');
 
 let etherRaised = 0;
 let priceRate = 0;
@@ -25,7 +20,6 @@ let timeLeft = 0;
 
 // Parse Contribution Contracts
 function parseContracts() {
-
   contributionContract.etherRaised()
     .then((result) => {
       etherRaised = web3.fromWei(result.toNumber(), 'ether');
@@ -38,31 +32,29 @@ function parseContracts() {
   let startTime = 0;
   let endTime = 0;
 
-  contributionContract.melonToken()
-    .then((result) => {
-      melonContract = MelonToken.at(result);
-      return melonContract.startTime();
-    })
-    .then((result) => {
-      startTime = result.toNumber();
-      return melonContract.endTime();
-    })
-    .then((result) => {
-      const now = Math.floor(Date.now() / 1000);
-      if (now < startTime) {
-        timeLeft = "Not started yet";
-      } else {
-        endTime = result.toNumber();
-        timeLeft = endTime - now;
-      }
-    });
+  melonContract.startTime()
+  .then((result) => {
+    startTime = result.toNumber();
+    return melonContract.endTime();
+  })
+  .then((result) => {
+    endTime = result.toNumber();
+    const now = Math.floor(Date.now() / 1000);
+    if (now < startTime) {
+      timeLeft = 'Not started yet';
+    } else if (now >= endTime) {
+      timeLeft = 'Contribution ended';
+    } else {
+      timeLeft = endTime - now;
+    }
+  });
 }
 
 /**
  * Startup code
  */
 Meteor.startup(() => {
-  Meteor.setInterval(parseContracts, 10000);
+  Meteor.setInterval(parseContracts, 3000);
 });
 
 

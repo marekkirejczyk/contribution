@@ -17,9 +17,9 @@ import './contribution.html';
 
 // Creation of contract object
 Contribution.setProvider(web3.currentProvider);
-//TODO fix default
-const contributionContract = Contribution.at(Contribution.all_networks['default'].address);
 MelonToken.setProvider(web3.currentProvider);
+const contributionContract = Contribution.at('0x446BC4cAAcFC0Faaf2f3c0af6a665cDe5c4cCd7d');
+const melonContract = MelonToken.at('0x231fA21e58d7658593cfF50883e3Ee4D6e4E4b78');
 
 Template.contribution.onCreated(function contributionOnCreated() {
   Session.set('isECParamsSet', false);

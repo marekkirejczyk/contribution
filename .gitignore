@@ -1,5 +1,7 @@
 node_modules/
 mup.js
 settings.json
+.eslintrc
+.eslintignore
 fullchain.pem
 privkey.pem
