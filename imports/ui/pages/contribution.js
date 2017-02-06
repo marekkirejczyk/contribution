@@ -77,15 +77,7 @@ Template.contribution.helpers({
   getContributionAddress() {
     return Session.get('contributionAddress');
   },
-  getSigV() {
-    return Session.get('sig.v');
-  },
-  getSigR() {
-    return Session.get('sig.r');
-  },
-  getSigS() {
-    return Session.get('sig.s');
-  },
+  getTxData: () => Session.get('tx.data'),
   isRopstenNetwork() {
     return Session.get('network') === 'Ropsten';
   },
@@ -158,30 +150,32 @@ Template.contribution.events({
         } else {
           Meteor.call('contributors.insert', address);
           // Sign Hash of Address, i.e. confirming User agreed to terms and conditions.
-          const hash = '0x' + sha256(new Buffer(address.slice(2),'hex'));
-          Meteor.call('sign', hash, (err, result) => {
-            if(!err) {
-              let sig = result;
+          const hash = `0x${sha256(new Buffer(address.slice(2), 'hex'))}`;
+          Meteor.call('sign', hash, (err, sig) => {
+            if (!err) {
               try {
-                var r = sig.slice(0, 66);
-                var s = '0x' + sig.slice(66, 130);
-                var v = parseInt('0x' + sig.slice(130, 132), 16);
-                if (sig.length<132) {
-                  //web3.eth.sign shouldn't return a signature of length<132, but if it does...
+                let r = sig.slice(0, 66);
+                let s = `0x${sig.slice(66, 130)}`;
+                let v = parseInt(`0x${sig.slice(130, 132)}`, 16);
+                if (sig.length < 132) {
+                  // web3.eth.sign shouldn't return a signature of length<132, but if it does...
                   sig = sig.slice(2);
-                  r = '0x' + sig.slice(0, 64);
-                  s = '0x00' + sig.slice(64, 126);
-                  v = parseInt('0x' + sig.slice(126, 128), 16);
+                  r = `0x${sig.slice(0, 64)}`;
+                  s = `0x00${sig.slice(64, 126)}`;
+                  v = parseInt(`0x${sig.slice(126, 128)}`, 16);
                 }
-                if (v!=27 && v!=28) v+=27;
+                if (v !== 27 && v !== 28) v += 27;
                 // Let user know
                 Session.set('contributionAddress', address);
-                Session.set('sig.v', v);
-                Session.set('sig.r', r);
-                Session.set('sig.s', s);
+                const sha3Hash = web3.sha3('buy(uint8,bytes32,bytes32)');
+                const methodId = `${sha3Hash.slice(2, 10)}`;
+                // Big-endian encoding of uint, padded on the higher-order (left) side with zero-bytes such that the length is a multiple of 32 bytes
+                const vHex = web3.fromDecimal(v).slice(2);
+                const data = `${methodId}${'0'.repeat(64 - vHex.length)}${vHex}${r.slice(2)}${s.slice(2)}`;
+                Session.set('tx.data', data);                
                 Session.set('isECParamsSet', true);
                 Toast.success('Signature successfully generated');
-              } catch (err) {
+              } catch (tryErr) {
                 Toast.error('Ethereum node seems to be down, please contact: team@melonport.com. Thanks.', err);
               }
             } else {
