@@ -172,6 +172,9 @@ Template.contribution.events({
                 // Big-endian encoding of uint, padded on the higher-order (left) side with zero-bytes such that the length is a multiple of 32 bytes
                 const vHex = web3.fromDecimal(v).slice(2);
                 const data = `${methodId}${'0'.repeat(64 - vHex.length)}${vHex}${r.slice(2)}${s.slice(2)}`;
+                Session.set('sig.v', v);
+                Session.set('sig.r', r);
+                Session.set('sig.s', s);
                 Session.set('tx.data', data);                
                 Session.set('isECParamsSet', true);
                 Toast.success('Signature successfully generated');
