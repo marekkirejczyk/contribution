@@ -1,4 +1,4 @@
-/// Remark: Code mostly taken from: https://github.com/makerdao/maker-market
+// Remark: Code mostly taken from: https://github.com/makerdao/maker-market
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 import { _ } from 'meteor/underscore';
@@ -8,6 +8,16 @@ import { _ } from 'meteor/underscore';
 function checkAccounts() {
   web3.eth.getAccounts((error, accounts) => {
     if (!error) {
+      const previousAccounts = Session.get('accounts');
+      if (!_.isEqual(previousAccounts, accounts)) {
+        // Accounts have been altered. Refresh default account since it might be changed.
+        if (previousAccounts && previousAccounts.length > 0 && web3.eth.defaultAccount === previousAccounts[0]) {
+          web3.eth.defaultAccount = null;
+          localStorage.setItem('address', null);
+          Session.set('address', null);
+        }
+      }
+
       if (!_.contains(accounts, web3.eth.defaultAccount)) {
         if (_.contains(accounts, localStorage.getItem('address'))) {
           web3.eth.defaultAccount = localStorage.getItem('address');
@@ -55,6 +65,9 @@ function checkNetwork() {
           console.debug('Skipping old block');
         }
       });
+
+      // Check if accounts have been updated
+      checkAccounts();
     }
 
     // Check which network are we connected to

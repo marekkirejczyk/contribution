@@ -1,18 +1,15 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
-import { $ } from 'meteor/jquery';
 import { Toast } from 'meteor/fourquet:jquery-toast';
-
-import { async } from 'async';
-import { assert } from 'assert';
-import { BigNumber } from 'bignumber.js';
-var sha256 = require('js-sha256').sha256;
 
 import Contribution from '/imports/lib/assets/contracts/Contribution.sol.js';
 import MelonToken from '/imports/lib/assets/contracts/MelonToken.sol.js';
 
 import './contribution.html';
+
+const sha256 = require('js-sha256').sha256;
+
 
 // Creation of contract object
 Contribution.setProvider(web3.currentProvider);
@@ -24,7 +21,7 @@ Template.contribution.onCreated(() => {
   Session.set('isECParamsSet', false);
   Session.set('isServerConnected', true);
   Meteor.call('isServerConnected', (err, result) => {
-    if(!err) {
+    if (!err) {
       Session.set('isServerConnected', result);
     } else {
       console.log(err);
@@ -143,26 +140,26 @@ Template.contribution.events({
       return;
     }
 
-    // Meteor.call('isUnitedStates', (err, res) => {
-    //   if (!err) {
-    //     if (res === true) {
-    //       Toast.info('Unfortunately we cannot accept contributions form the United States');
-    //     } else {
-    //       Meteor.call('contributors.insert', address);
+    Meteor.call('isUnitedStates', (err, res) => {
+      if (!err) {
+        if (res === true) {
+          Toast.info('Unfortunately we cannot accept contributions form the United States');
+        } else {
+          Meteor.call('contributors.insert', address);
           // Sign Hash of Address, i.e. confirming User agreed to terms and conditions.
           const hash = `0x${sha256(new Buffer(address.slice(2), 'hex'))}`;
-          Meteor.call('sign', hash, (err, sig) => {
-            if (!err) {
+          Meteor.call('sign', hash, (errCall, sig) => {
+            if (!errCall) {
               try {
                 let r = sig.slice(0, 66);
                 let s = `0x${sig.slice(66, 130)}`;
                 let v = parseInt(`0x${sig.slice(130, 132)}`, 16);
                 if (sig.length < 132) {
                   // web3.eth.sign shouldn't return a signature of length<132, but if it does...
-                  sig = sig.slice(2);
-                  r = `0x${sig.slice(0, 64)}`;
-                  s = `0x00${sig.slice(64, 126)}`;
-                  v = parseInt(`0x${sig.slice(126, 128)}`, 16);
+                  const shortSig = sig.slice(2);
+                  r = `0x${shortSig.slice(0, 64)}`;
+                  s = `0x00${shortSig.slice(64, 126)}`;
+                  v = parseInt(`0x${shortSig.slice(126, 128)}`, 16);
                 }
                 if (v !== 27 && v !== 28) v += 27;
                 // Let user know
@@ -173,6 +170,10 @@ Template.contribution.events({
                 const vHex = web3.fromDecimal(v).slice(2);
                 const data = `0x${methodId}${'0'.repeat(64 - vHex.length)}${vHex}${r.slice(2)}${s.slice(2)}`;
                 Session.set('tx.data', data);
+                Session.set('sig.v', v);
+                Session.set('sig.r', r);
+                Session.set('sig.s', s);
+                Session.set('tx.data', data);
                 Session.set('isECParamsSet', true);
                 Toast.success('Signature successfully generated');
               } catch (tryErr) {
@@ -182,9 +183,9 @@ Template.contribution.events({
               console.log(err);
             }
           });
-    //     }
-    //   }
-    // });
+        }
+      }
+    });
   },
   'submit .amount': (event, templateInstance) => {
     // Prevent default browser form submit

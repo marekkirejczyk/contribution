@@ -29,7 +29,7 @@ Template.contribution_summary.onCreated(() => {
 
 Template.contribution_summary.helpers({
   etherRaised() {
-    return Session.get('etherRaised') + ' / ' + ETHER_CAP;
+    return `${Session.get('etherRaised')} / ${ETHER_CAP}`;
   },
   timeLeft() {
     return String(Session.get('timeLeft')).toDDHHMMSS();
