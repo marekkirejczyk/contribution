@@ -11,8 +11,8 @@ import MelonToken from '/imports/lib/assets/contracts/MelonToken.sol.js';
 // Creation of contract object
 Contribution.setProvider(web3.currentProvider);
 MelonToken.setProvider(web3.currentProvider);
-const contributionContract = Contribution.at('0x446BC4cAAcFC0Faaf2f3c0af6a665cDe5c4cCd7d');
-const melonContract = MelonToken.at('0x231fA21e58d7658593cfF50883e3Ee4D6e4E4b78');
+const contributionContract = Contribution.at('0x244a87ed365e5524d602265ba794a0c055fa7c2b');
+const melonContract = MelonToken.at('0xbba8ac4a82e64607ec18e64dcaed9184af9cce4b');
 
 let etherRaised = 0;
 let priceRate = 0;

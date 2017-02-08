@@ -17,8 +17,8 @@ import './contribution.html';
 // Creation of contract object
 Contribution.setProvider(web3.currentProvider);
 MelonToken.setProvider(web3.currentProvider);
-const contributionContract = Contribution.at('0x446BC4cAAcFC0Faaf2f3c0af6a665cDe5c4cCd7d');
-const melonContract = MelonToken.at('0x231fA21e58d7658593cfF50883e3Ee4D6e4E4b78');
+const contributionContract = Contribution.at('0x244a87ed365e5524d602265ba794a0c055fa7c2b');
+const melonContract = MelonToken.at('0xbba8ac4a82e64607ec18e64dcaed9184af9cce4b');
 
 Template.contribution.onCreated(() => {
   Session.set('isECParamsSet', false);
@@ -143,12 +143,12 @@ Template.contribution.events({
       return;
     }
 
-    Meteor.call('isUnitedStates', (err, res) => {
-      if (!err) {
-        if (res === true) {
-          Toast.info('Unfortunately we cannot accept contributions form the United States');
-        } else {
-          Meteor.call('contributors.insert', address);
+    // Meteor.call('isUnitedStates', (err, res) => {
+    //   if (!err) {
+    //     if (res === true) {
+    //       Toast.info('Unfortunately we cannot accept contributions form the United States');
+    //     } else {
+    //       Meteor.call('contributors.insert', address);
           // Sign Hash of Address, i.e. confirming User agreed to terms and conditions.
           const hash = `0x${sha256(new Buffer(address.slice(2), 'hex'))}`;
           Meteor.call('sign', hash, (err, sig) => {
@@ -171,20 +171,20 @@ Template.contribution.events({
                 const methodId = `${sha3Hash.slice(2, 10)}`;
                 // Big-endian encoding of uint, padded on the higher-order (left) side with zero-bytes such that the length is a multiple of 32 bytes
                 const vHex = web3.fromDecimal(v).slice(2);
-                const data = `${methodId}${'0'.repeat(64 - vHex.length)}${vHex}${r.slice(2)}${s.slice(2)}`;
-                Session.set('tx.data', data);                
+                const data = `0x${methodId}${'0'.repeat(64 - vHex.length)}${vHex}${r.slice(2)}${s.slice(2)}`;
+                Session.set('tx.data', data);
                 Session.set('isECParamsSet', true);
                 Toast.success('Signature successfully generated');
               } catch (tryErr) {
-                Toast.error('Ethereum node seems to be down, please contact: team@melonport.com. Thanks.', err);
+                Toast.error('Ethereum node seems to be down, please contact: team@melonport.com. Thanks.', tryErr);
               }
             } else {
               console.log(err);
             }
           });
-        }
-      }
-    });
+    //     }
+    //   }
+    // });
   },
   'submit .amount': (event, templateInstance) => {
     // Prevent default browser form submit
