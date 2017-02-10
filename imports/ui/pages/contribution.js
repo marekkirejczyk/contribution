@@ -27,6 +27,13 @@ Template.contribution.onCreated(() => {
       console.log(err);
     }
   });
+  Meteor.call('getIP', (err, result) => {
+    if (!err) {
+      Session.set('ip', result);
+    } else {
+      console.log(err);
+    }
+  });
   Toast.options = {
     closeButton: false,
     progressBar: false,

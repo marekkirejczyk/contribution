@@ -1,6 +1,5 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
-import { HTTP } from 'meteor/http';
 import { check } from 'meteor/check';
 
 export const Contributors = new Mongo.Collection('contributors');
@@ -40,10 +39,13 @@ function parseContracts() {
   .then((result) => {
     endTime = result.toNumber();
     const now = Math.floor(Date.now() / 1000);
-    if (now < startTime) {
-      timeLeft = 'Not started yet';
+
+    if (startTime === 0 || endTime === 0) {
+      timeLeft = -2;
+    } else if (now < startTime) {
+      timeLeft = -1;
     } else if (now >= endTime) {
-      timeLeft = 'Contribution ended';
+      timeLeft = 0;
     } else {
       timeLeft = endTime - now;
     }
@@ -69,19 +71,17 @@ Meteor.methods({
   etherRaised: () => etherRaised,
   priceRate: () => priceRate,
   timeLeft: () => timeLeft,
-  ipaddress: () => {
-    // Return IP as seen from the Server
-    return this.connection.clientAddress;
-  },
-  isUnitedStates: () => HTTP.get('https://ifconfig.co/json').data.country === 'United States',
+  // ipaddress: () => this.connection.clientAddress,
   'contributors.insert': (address) => {
     check(address, String);
-    const data = HTTP.get('https://ifconfig.co/json').data;
     Contributors.insert({
-      country: data.country,
-      ip: data.ip,
       address,
+      ip: this.connection.clientAddress,
       createdAt: new Date(),
     });
   },
+  getIP: function(){
+      var ip = this.connection.clientAddress;
+      return ip;
+  }  
 });

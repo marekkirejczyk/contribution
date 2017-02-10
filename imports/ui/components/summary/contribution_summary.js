@@ -5,7 +5,7 @@ import { Session } from 'meteor/session';
 import './contribution_summary.html';
 
 
-let ETHER_CAP = 250000; // Expected Value
+let ETHER_CAP = 220000; // Expected Value
 
 String.prototype.toDDHHMMSS = function () {
     let sec_num = parseInt(this, 10); // don't forget the second param
@@ -24,21 +24,28 @@ String.prototype.toDDHHMMSS = function () {
 }
 
 
-Template.contribution_summary.onCreated(() => {
-});
+Template.contribution_summary.onCreated(() => {});
 
 Template.contribution_summary.helpers({
-  etherRaised() {
-    return `${Session.get('etherRaised')} / ${ETHER_CAP}`;
+  currentPrice() {
+    if (Session.get('timeLeft') === -2) return 'Waiting for contract deployment';
+    if (Session.get('timeLeft') === -1) return 'Has not started yet';
+    if (Session.get('timeLeft') === 0) return 'Contribution has ended';
+    return `${Session.get('currentPrice')} MLN/ETH`;
   },
   timeLeft() {
+    if (Session.get('timeLeft') === -2) return 'Waiting for contract deployment';
+    if (Session.get('timeLeft') === -1) return 'Has not started yet';
+    if (Session.get('timeLeft') === 0) return 'Contribution has ended';
     return String(Session.get('timeLeft')).toDDHHMMSS();
   },
-  currentPrice() {
-    return String(Session.get('currentPrice'));
+  etherRaised() {
+    if (Session.get('timeLeft') === -2) return 'Waiting for contract deployment';
+    if (Session.get('timeLeft') === -1) return 'Has not started yet';
+    if (Session.get('timeLeft') === 0) return 'Contribution has ended';
+    return `${Session.get('etherRaised')} / ${ETHER_CAP}`;
   },
 });
 
 
-Template.contribution_summary.onRendered(() => {
-});
+Template.contribution_summary.onRendered(() => {});
