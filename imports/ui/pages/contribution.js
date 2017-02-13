@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
+import { FlowRouter } from 'meteor/kadira:flow-router';
 import { Session } from 'meteor/session';
 import { Toast } from 'meteor/fourquet:jquery-toast';
 
@@ -14,8 +15,8 @@ const sha256 = require('js-sha256').sha256;
 // Creation of contract object
 Contribution.setProvider(web3.currentProvider);
 MelonToken.setProvider(web3.currentProvider);
-const contributionContract = Contribution.at('0x244a87ed365e5524d602265ba794a0c055fa7c2b');
-const melonContract = MelonToken.at('0xbba8ac4a82e64607ec18e64dcaed9184af9cce4b');
+const contributionContract = Contribution.at('0x3BF541f87056D134E0109BE1Be92978b26Cb09e0');
+const melonContract = MelonToken.at('0xBEB9eF514a379B997e0798FDcC901Ee474B6D9A1');
 
 Template.contribution.onCreated(() => {
   Session.set('isECParamsSet', false);
@@ -94,6 +95,20 @@ Template.contribution.helpers({
   isRopstenNetwork() {
     return Session.get('network') === 'Ropsten';
   },
+  isMainNetwork() {
+    return Session.get('network') === 'Main';
+  },
+  isBetweenStartAndEndTime() {
+    if (Session.get('timeLeft') === -2) return false; //'Waiting for contract deployment';
+    if (Session.get('timeLeft') === -1) return false; //'Not started yet';
+    if (Session.get('timeLeft') === 0) return false; //'Contribution has ended';
+    return true;
+  },
+  timeUntillStart() {
+    const now = Math.floor(Date.now() / 1000);
+    const startTime = 1487156400;
+    return String(startTime - now).toDDHHMMSS();
+  },
   isSending() {
     return Session.get('isSending');
   },
@@ -149,8 +164,6 @@ Template.contribution.events({
     if (Session.get('isUS') === true) {
       Toast.info('Unfortunately this contribution is for non-US citizen only');
       return;
-    } else {
-      Toast.success(`Your ip is: ${Session.get('clientIp')}`);
     }
 
     // Get value from form element
@@ -164,47 +177,48 @@ Template.contribution.events({
     }
 
     Meteor.call('contributors.insert', address);
-    // // Sign Hash of Address, i.e. confirming User agreed to terms and conditions.
-    // const hash = `0x${sha256(new Buffer(address.slice(2), 'hex'))}`;
-    // Meteor.call('sign', hash, (errCall, sig) => {
-    //   if (!errCall) {
-    //     try {
-    //       let r = sig.slice(0, 66);
-    //       let s = `0x${sig.slice(66, 130)}`;
-    //       let v = parseInt(`0x${sig.slice(130, 132)}`, 16);
-    //       if (sig.length < 132) {
-    //         // web3.eth.sign shouldn't return a signature of length<132, but if it does...
-    //         const shortSig = sig.slice(2);
-    //         r = `0x${shortSig.slice(0, 64)}`;
-    //         s = `0x00${shortSig.slice(64, 126)}`;
-    //         v = parseInt(`0x${shortSig.slice(126, 128)}`, 16);
-    //       }
-    //       if (v !== 27 && v !== 28) v += 27;
-    //       // Generate Transaction data string
-    //       const sha3Hash = web3.sha3('buy(uint8,bytes32,bytes32)');
-    //       const methodId = `${sha3Hash.slice(2, 10)}`;
-    //       // Big-endian encoding of uint, padded on the higher-order (left) side with zero-bytes such that the length is a multiple of 32 bytes
-    //       const vHex = web3.fromDecimal(v).slice(2);
-    //       const data = `0x${methodId}${'0'.repeat(64 - vHex.length)}${vHex}${r.slice(2)}${s.slice(2)}`;
-    //       // Store data in Sessions
-    //       Session.set('contributionAddress', address);
-    //       Session.set('tx.data', data);
-    //       Session.set('sig.v', v);
-    //       Session.set('sig.r', r);
-    //       Session.set('sig.s', s);
-    //       Session.set('tx.data', data);
-    //       Session.set('isECParamsSet', true);
-    //       // Console output of Signature
-    //       console.log(`\nSig.v:\n${v}\nSig.r:\n${r}\nSig.s:\n${s}`);
-    //       // Let user know
-    //       Toast.success('Signature successfully generated');
-    //     } catch (tryErr) {
-    //       Toast.error('Ethereum node seems to be down, please contact: team@melonport.com. Thanks.', tryErr);
-    //     }
-    //   } else {
-    //     console.log(err);
-    //   }
-    // });
+    // Sign Hash of Address, i.e. confirming User agreed to terms and conditions.
+    const hash = `0x${sha256(new Buffer(address.slice(2), 'hex'))}`;
+    Meteor.call('sign', hash, (errCall, sig) => {
+      if (!errCall) {
+        try {
+          let r = sig.slice(0, 66);
+          let s = `0x${sig.slice(66, 130)}`;
+          let v = parseInt(`0x${sig.slice(130, 132)}`, 16);
+          if (sig.length < 132) {
+            // web3.eth.sign shouldn't return a signature of length<132, but if it does...
+            const shortSig = sig.slice(2);
+            r = `0x${shortSig.slice(0, 64)}`;
+            s = `0x00${shortSig.slice(64, 126)}`;
+            v = parseInt(`0x${shortSig.slice(126, 128)}`, 16);
+          }
+          if (v !== 27 && v !== 28) v += 27;
+          // Generate Transaction data string
+          const sha3Hash = web3.sha3('buy(uint8,bytes32,bytes32)');
+          const methodId = `${sha3Hash.slice(2, 10)}`;
+          // Big-endian encoding of uint, padded on the higher-order (left) side with zero-bytes such that the length is a multiple of 32 bytes
+          const vHex = web3.fromDecimal(v).slice(2);
+          const data = `0x${methodId}${'0'.repeat(64 - vHex.length)}${vHex}${r.slice(2)}${s.slice(2)}`;
+          // Store data in Sessions
+          Session.set('contributionAddress', address);
+          Session.set('tx.data', data);
+          Session.set('sig.v', v);
+          Session.set('sig.r', r);
+          Session.set('sig.s', s);
+          Session.set('tx.data', data);
+          Session.set('isECParamsSet', true);
+          // Console output of Signature
+          console.log(`\nSig.v:\n${v}\nSig.r:\n${r}\nSig.s:\n${s}`);
+          // Let user know
+          Toast.success('Signature successfully generated');
+          FlowRouter.go('#results');
+        } catch (tryErr) {
+          Toast.error('Ethereum node seems to be down, please contact: team@melonport.com. Thanks.', tryErr);
+        }
+      } else {
+        console.log(err);
+      }
+    });
   },
   'submit .amount': (event, templateInstance) => {
     // Prevent default browser form submit
@@ -223,7 +237,6 @@ Template.contribution.events({
       Session.get('sig.s'),
       { from: Session.get('contributionAddress'), value: web3.toWei(etherAmount, 'ether') })
     .then(() => {
-      // TODO msg is sending
       template.find('#txStatus').innerHTML = 'Funds have been sent.';
       return melonContract.balanceOf(Session.get('contributionAddress'));
     }).then((result) => {

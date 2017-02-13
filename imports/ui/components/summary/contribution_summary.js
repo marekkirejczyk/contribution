@@ -29,19 +29,19 @@ Template.contribution_summary.onCreated(() => {});
 Template.contribution_summary.helpers({
   currentPrice() {
     if (Session.get('timeLeft') === -2) return 'Waiting for contract deployment';
-    if (Session.get('timeLeft') === -1) return 'Has not started yet';
+    if (Session.get('timeLeft') === -1) return 'Not started yet';
     if (Session.get('timeLeft') === 0) return 'Contribution has ended';
     return `${Session.get('currentPrice')} MLN/ETH`;
   },
   timeLeft() {
     if (Session.get('timeLeft') === -2) return 'Waiting for contract deployment';
-    if (Session.get('timeLeft') === -1) return 'Has not started yet';
+    if (Session.get('timeLeft') === -1) return 'Not started yet';
     if (Session.get('timeLeft') === 0) return 'Contribution has ended';
     return String(Session.get('timeLeft')).toDDHHMMSS();
   },
   etherRaised() {
     if (Session.get('timeLeft') === -2) return 'Waiting for contract deployment';
-    if (Session.get('timeLeft') === -1) return 'Has not started yet';
+    if (Session.get('timeLeft') === -1) return 'Not started yet';
     if (Session.get('timeLeft') === 0) return 'Contribution has ended';
     return `${Session.get('etherRaised')} / ${ETHER_CAP}`;
   },

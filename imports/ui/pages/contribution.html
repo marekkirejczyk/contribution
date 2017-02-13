@@ -115,89 +115,108 @@
   							<span class="form-control-feedback" id="success-message" aria-hidden="true"></span>
   							<span style="color:#1189c6" class="form-control-feedback" id="error-message" aria-hidden="true"></span>
   						</div>
-
               {{#if isAllAccepted}}
                 {{#if isECParamsSet}}
                   <button type="submit" class="btn col-md-2 col-sm-2 col-xs-2 btn-main"><a href="#results">SHOW RESULT</a></button>
                 {{else}}
-                  <button type="submit" class="signature btn col-md-2 col-sm-2 col-xs-2 btn-main">I CONFIRM</button>
+                  <button type="submit" class="signature btn col-md-2 col-sm-2 col-xs-2 btn-main" href="#results">I CONFIRM</button>
                 {{/if}}
               {{else}}
-                <button type="submit" class="disabled btn col-md-2 col-sm-2 col-xs-2 btn-main">I CONFIRM</button>
+                <button type="submit" class="disabled btn col-md-2 col-sm-2 col-xs-2 btn-main" href="#results">I CONFIRM</button>
               {{/if}}
   					</div>
           </form>
-
 				</div>
 			</div>
 		</div>
 
     {{#if isECParamsSet}}
       {{#if isClientConnected}}
-        <!-- TODO change to main before feb 15 -->
-        {{#if isRopstenNetwork}}
-          <!-- send fund section -->
-          <div class="container mp-contrib-send">
-            <div class="row">
-              <div class="col-md-9 col-md-offset-1 col-lg-8 col-lg-offset-2">
-                <div id="results" class="section scrollspy">
-                  <form class="amount">
-                    <h2 class="contrib-title">Send Funds</h2>
-                    <p>Please insert the amount of Ether you'd like to contribute from your Ethereum address to Melon.</p>
-                    <div class="form-inline mp-form">
-                      <div class="form-group col-md-10 col-sm-10 col-xs-10 has-feedback">
-                        <input type="number" step="any" class="form-control" id="ether_amount" placeholder="Ether Amount">
-                        <!-- <span class="form-control-feedback" id="melon-amount-message" aria-hidden="true">Melon Amount</span> -->
+        {{#if isMainNetwork}}
+          {{#if isBetweenStartAndEndTime}}
+            <!-- send fund section -->
+            <div class="container mp-contrib-send">
+              <div class="row">
+                <div class="col-md-9 col-md-offset-1 col-lg-8 col-lg-offset-2">
+                  <div id="results" class="section scrollspy">
+                    <form class="amount">
+                      <h2 class="contrib-title">Send Funds</h2>
+                      <p>Please insert the amount of Ether you'd like to contribute from your Ethereum address to Melon.</p>
+                      <div class="form-inline mp-form">
+                        <div class="form-group col-md-10 col-sm-10 col-xs-10 has-feedback">
+                          <input type="number" step="any" class="form-control" id="ether_amount" placeholder="Ether Amount">
+                        </div>
+                        <button type="submit" class="amount btn col-md-2 col-sm-2 col-xs-2 btn-main">SEND</button>
                       </div>
-                      <button type="submit" class="amount btn col-md-2 col-sm-2 col-xs-2 btn-main">SEND</button>
-                    </div>
-                    <br>
-                  </form>
+                      <br>
+                    </form>
+                  </div>
+                </div>
+                <div class="col-md-9 col-md-offset-1 col-lg-8 col-lg-offset-2">
+                  <p id='txStatus'></p>
                 </div>
               </div>
-              <div class="col-md-9 col-md-offset-1 col-lg-8 col-lg-offset-2">
-                <p id='txStatus'></p>
-              </div>
             </div>
-          </div>
-        {{else}}
-          <section class="mp-contrib-main">
-            <!-- Terms&Conditions -->
+          {{else}}
             <div class="container mp-contrib-term">
               <div class="row">
                 <div class="col-md-9 col-md-offset-1 col-lg-8 col-lg-offset-2">
                   <div id="results" class="section scrollspy">
-                    <!-- Terms Accepted -->
-                    <h2 class="contrib-title">To send funds directly please use the Ropsten Testnet until live deployment on February 15th 2017</h2>
+                    <h2 class="contrib-title">Contribution has not started yet. Please wait for {{timeUntillStart}} or disconnect this Dapp from Ethereum and schedule a transaction.</h2>
                   </div>
                 </div>
               </div>
             </div>
-          </section>
+          {{/if}}
+        {{else}}
+          <div class="container mp-contrib-term">
+            <div class="row">
+              <div class="col-md-9 col-md-offset-1 col-lg-8 col-lg-offset-2">
+                <div id="results" class="section scrollspy">
+                  <h2 class="contrib-title">Use the Ethereum main network to send funds</h2>
+                </div>
+              </div>
+            </div>
+          </div>
         {{/if}}
       {{else}}
-        <!-- signature section -->
+        <!-- Transaction Object Section -->
     		<div class="container mp-contrib-sign">
     			<div class="row">
     				<div class="col-md-9 col-md-offset-1 col-lg-8 col-lg-offset-2 col-sm-12 col-xs-12">
               <div id="results" class="section scrollspy">
-      					<h2 class="contrib-title">Signature (not official yet)</h2>
+      					<h2 class="contrib-title">Signature</h2>
       					<p>With these parameters you can contribute to Melon.</p>
       					<ul>
-      						<li>From: <strong>{{getContributionAddress}}</strong></li>
-      						<li>To: <strong>0x244a87ed365e5524d602265ba794a0c055fa7c2b</strong></li>
-      						<li>Value: <strong>Amount you'd like to contribute</strong></li>
+      						<li>From:
+                    <strong>
+                      {{getContributionAddress}}
+                    </strong>
+                  </li>
+      						<li>To:
+                    <strong>
+                      0x3BF541f87056D134E0109BE1Be92978b26Cb09e0
+                    </strong>
+                  </li>
+      						<li>Value:
+                    <strong>
+                      Amount you'd like to contribute
+                    </strong>
+                  </li>
+      						<li>Gas:
+                    <strong>
+                      100000
+                    </strong>
+                  </li>
       						<li>Data:</li>
                   <li><textarea rows="4" cols="30">{{getTxData}}</textarea></li>
       					</ul>
-      					<p>To contribute you can either use Parity, MetaMask or Mist.</p>
+      					<p>To contribute you can either use Parity, MetaMask, Mist or MyEtherWallet.</p>
       				</div>
     				</div>
     			</div>
     		</div>
       {{/if}}
     {{/if}}
-
   </section>
-
 </template>
