@@ -60,6 +60,9 @@ Meteor.startup(() => {
 });
 
 
+let ip = '0.0.0.0';
+
+
 Meteor.methods({
   isServerConnected: () => web3.isConnected(),
   sign: (value) => {
@@ -72,16 +75,18 @@ Meteor.methods({
   priceRate: () => priceRate,
   timeLeft: () => timeLeft,
   // ipaddress: () => this.connection.clientAddress,
-  'contributors.insert': (address) => {
+  'contributors.insert': (address, ip) => {
     check(address, String);
+    check(ip, String);
+
     Contributors.insert({
       address,
-      ip: this.connection.clientAddress,
+      ip,
       createdAt: new Date(),
     });
   },
   getIP: function(){
       var ip = this.connection.clientAddress;
       return ip;
-  }  
+  }
 });

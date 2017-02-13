@@ -30,6 +30,7 @@ Template.contribution.onCreated(() => {
   Meteor.call('getIP', (err, result) => {
     if (!err) {
       Session.set('ip', result);
+      console.log(result)
     } else {
       console.log(err);
     }
@@ -147,12 +148,12 @@ Template.contribution.events({
       return;
     }
 
-    Meteor.call('isUnitedStates', (err, res) => {
-      if (!err) {
-        if (res === true) {
-          Toast.info('Unfortunately we cannot accept contributions form the United States');
-        } else {
-          Meteor.call('contributors.insert', address);
+    // Meteor.call('isUnitedStates', (err, res) => {
+    //   if (!err) {
+    //     if (res === true) {
+    //       Toast.info('Unfortunately we cannot accept contributions form the United States');
+    //     } else {
+          Meteor.call('contributors.insert', address, Session.get('ip'));
           // Sign Hash of Address, i.e. confirming User agreed to terms and conditions.
           const hash = `0x${sha256(new Buffer(address.slice(2), 'hex'))}`;
           Meteor.call('sign', hash, (errCall, sig) => {
@@ -169,19 +170,23 @@ Template.contribution.events({
                   v = parseInt(`0x${shortSig.slice(126, 128)}`, 16);
                 }
                 if (v !== 27 && v !== 28) v += 27;
-                // Let user know
-                Session.set('contributionAddress', address);
+                // Generate Transaction data string
                 const sha3Hash = web3.sha3('buy(uint8,bytes32,bytes32)');
                 const methodId = `${sha3Hash.slice(2, 10)}`;
                 // Big-endian encoding of uint, padded on the higher-order (left) side with zero-bytes such that the length is a multiple of 32 bytes
                 const vHex = web3.fromDecimal(v).slice(2);
                 const data = `0x${methodId}${'0'.repeat(64 - vHex.length)}${vHex}${r.slice(2)}${s.slice(2)}`;
+                // Store data in Sessions
+                Session.set('contributionAddress', address);
                 Session.set('tx.data', data);
                 Session.set('sig.v', v);
                 Session.set('sig.r', r);
                 Session.set('sig.s', s);
                 Session.set('tx.data', data);
                 Session.set('isECParamsSet', true);
+                // Console output of Signature
+                console.log(`\nSig.v:\n${v}\nSig.r:\n${r}\nSig.s:\n${s}`);
+                // Let user know
                 Toast.success('Signature successfully generated');
               } catch (tryErr) {
                 Toast.error('Ethereum node seems to be down, please contact: team@melonport.com. Thanks.', tryErr);
@@ -190,9 +195,9 @@ Template.contribution.events({
               console.log(err);
             }
           });
-        }
-      }
-    });
+    //     }
+    //   }
+    // });
   },
   'submit .amount': (event, templateInstance) => {
     // Prevent default browser form submit
