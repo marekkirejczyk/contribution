@@ -60,7 +60,7 @@ Meteor.startup(() => {
 });
 
 let clientIp = '0.0.0.0';
-let clientData = {};
+let clientData;
 let isUS = true;
 Meteor.onConnection((connection) => {
   clientIp = connection.clientAddress;
@@ -80,6 +80,7 @@ Meteor.onConnection((connection) => {
 
 Meteor.methods({
   isServerConnected: () => web3.isConnected(),
+  clientIp: () => clientIp,
   isUS: () => isUS,
   sign: (value) => {
     check(value, String);
@@ -90,7 +91,6 @@ Meteor.methods({
   etherRaised: () => etherRaised,
   priceRate: () => priceRate,
   timeLeft: () => timeLeft,
-  // ipaddress: () => this.connection.clientAddress,
   'contributors.insert': (address) => {
     check(address, String);
     Contributors.insert({
@@ -99,5 +99,5 @@ Meteor.methods({
       clientData,
       createdAt: new Date(),
     });
-  }
+  },
 });

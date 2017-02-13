@@ -30,6 +30,15 @@ Template.contribution.onCreated(() => {
   Meteor.call('isUS', (err, result) => {
     if(!err) {
       Session.set('isUS', result);
+      console.log(`Is from US: ${Session.get('isUS')}`);
+    } else {
+      console.log(err);
+    }
+  });
+  Meteor.call('clientIp', (err, result) => {
+    if (!err) {
+      Session.set('clientIp', result);
+      console.log(`Your ip is: ${Session.get('clientIp')}`);
     } else {
       console.log(err);
     }
@@ -140,6 +149,8 @@ Template.contribution.events({
     if (Session.get('isUS') === true) {
       Toast.info('Unfortunately this contribution is for non-US citizen only');
       return;
+    } else {
+      Toast.success(`Your ip is: ${Session.get('clientIp')}`);
     }
 
     // Get value from form element
@@ -153,47 +164,47 @@ Template.contribution.events({
     }
 
     Meteor.call('contributors.insert', address);
-    // Sign Hash of Address, i.e. confirming User agreed to terms and conditions.
-    const hash = `0x${sha256(new Buffer(address.slice(2), 'hex'))}`;
-    Meteor.call('sign', hash, (errCall, sig) => {
-      if (!errCall) {
-        try {
-          let r = sig.slice(0, 66);
-          let s = `0x${sig.slice(66, 130)}`;
-          let v = parseInt(`0x${sig.slice(130, 132)}`, 16);
-          if (sig.length < 132) {
-            // web3.eth.sign shouldn't return a signature of length<132, but if it does...
-            const shortSig = sig.slice(2);
-            r = `0x${shortSig.slice(0, 64)}`;
-            s = `0x00${shortSig.slice(64, 126)}`;
-            v = parseInt(`0x${shortSig.slice(126, 128)}`, 16);
-          }
-          if (v !== 27 && v !== 28) v += 27;
-          // Generate Transaction data string
-          const sha3Hash = web3.sha3('buy(uint8,bytes32,bytes32)');
-          const methodId = `${sha3Hash.slice(2, 10)}`;
-          // Big-endian encoding of uint, padded on the higher-order (left) side with zero-bytes such that the length is a multiple of 32 bytes
-          const vHex = web3.fromDecimal(v).slice(2);
-          const data = `0x${methodId}${'0'.repeat(64 - vHex.length)}${vHex}${r.slice(2)}${s.slice(2)}`;
-          // Store data in Sessions
-          Session.set('contributionAddress', address);
-          Session.set('tx.data', data);
-          Session.set('sig.v', v);
-          Session.set('sig.r', r);
-          Session.set('sig.s', s);
-          Session.set('tx.data', data);
-          Session.set('isECParamsSet', true);
-          // Console output of Signature
-          console.log(`\nSig.v:\n${v}\nSig.r:\n${r}\nSig.s:\n${s}`);
-          // Let user know
-          Toast.success('Signature successfully generated');
-        } catch (tryErr) {
-          Toast.error('Ethereum node seems to be down, please contact: team@melonport.com. Thanks.', tryErr);
-        }
-      } else {
-        console.log(err);
-      }
-    });
+    // // Sign Hash of Address, i.e. confirming User agreed to terms and conditions.
+    // const hash = `0x${sha256(new Buffer(address.slice(2), 'hex'))}`;
+    // Meteor.call('sign', hash, (errCall, sig) => {
+    //   if (!errCall) {
+    //     try {
+    //       let r = sig.slice(0, 66);
+    //       let s = `0x${sig.slice(66, 130)}`;
+    //       let v = parseInt(`0x${sig.slice(130, 132)}`, 16);
+    //       if (sig.length < 132) {
+    //         // web3.eth.sign shouldn't return a signature of length<132, but if it does...
+    //         const shortSig = sig.slice(2);
+    //         r = `0x${shortSig.slice(0, 64)}`;
+    //         s = `0x00${shortSig.slice(64, 126)}`;
+    //         v = parseInt(`0x${shortSig.slice(126, 128)}`, 16);
+    //       }
+    //       if (v !== 27 && v !== 28) v += 27;
+    //       // Generate Transaction data string
+    //       const sha3Hash = web3.sha3('buy(uint8,bytes32,bytes32)');
+    //       const methodId = `${sha3Hash.slice(2, 10)}`;
+    //       // Big-endian encoding of uint, padded on the higher-order (left) side with zero-bytes such that the length is a multiple of 32 bytes
+    //       const vHex = web3.fromDecimal(v).slice(2);
+    //       const data = `0x${methodId}${'0'.repeat(64 - vHex.length)}${vHex}${r.slice(2)}${s.slice(2)}`;
+    //       // Store data in Sessions
+    //       Session.set('contributionAddress', address);
+    //       Session.set('tx.data', data);
+    //       Session.set('sig.v', v);
+    //       Session.set('sig.r', r);
+    //       Session.set('sig.s', s);
+    //       Session.set('tx.data', data);
+    //       Session.set('isECParamsSet', true);
+    //       // Console output of Signature
+    //       console.log(`\nSig.v:\n${v}\nSig.r:\n${r}\nSig.s:\n${s}`);
+    //       // Let user know
+    //       Toast.success('Signature successfully generated');
+    //     } catch (tryErr) {
+    //       Toast.error('Ethereum node seems to be down, please contact: team@melonport.com. Thanks.', tryErr);
+    //     }
+    //   } else {
+    //     console.log(err);
+    //   }
+    // });
   },
   'submit .amount': (event, templateInstance) => {
     // Prevent default browser form submit
