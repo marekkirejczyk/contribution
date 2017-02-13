@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
+import { HTTP } from 'meteor/http';
 import { check } from 'meteor/check';
 
 export const Contributors = new Mongo.Collection('contributors');
@@ -39,7 +40,6 @@ function parseContracts() {
   .then((result) => {
     endTime = result.toNumber();
     const now = Math.floor(Date.now() / 1000);
-
     if (startTime === 0 || endTime === 0) {
       timeLeft = -2;
     } else if (now < startTime) {
@@ -59,12 +59,28 @@ Meteor.startup(() => {
   Meteor.setInterval(parseContracts, 3000);
 });
 
-
-let ip = '0.0.0.0';
-
+let clientIp = '0.0.0.0';
+let clientData = {};
+let isUS = true;
+Meteor.onConnection((connection) => {
+  clientIp = connection.clientAddress;
+  console.log(clientIp);
+  HTTP.get(`http://ipinfo.io/${clientIp}`, (e, res) => {
+    if (!e) {
+      if (clientIp === '0.0.0.0') return;
+      if (res.statusCode !== 200) return;
+      const data = res.data;
+      clientData = data;
+      console.log(data)
+      if (data.country === 'US') isUS = true;
+      else isUS = false;
+    }
+  });
+});
 
 Meteor.methods({
   isServerConnected: () => web3.isConnected(),
+  isUS: () => isUS,
   sign: (value) => {
     check(value, String);
     // Sign value with coinbase account
@@ -75,18 +91,13 @@ Meteor.methods({
   priceRate: () => priceRate,
   timeLeft: () => timeLeft,
   // ipaddress: () => this.connection.clientAddress,
-  'contributors.insert': (address, ip) => {
+  'contributors.insert': (address) => {
     check(address, String);
-    check(ip, String);
-
     Contributors.insert({
       address,
-      ip,
+      isUS,
+      clientData,
       createdAt: new Date(),
     });
-  },
-  getIP: function(){
-      var ip = this.connection.clientAddress;
-      return ip;
   }
 });
