@@ -64,7 +64,6 @@ let clientData;
 let isUS = true;
 Meteor.onConnection((connection) => {
   clientIp = connection.clientAddress;
-  console.log(clientIp);
   HTTP.get(`http://ipinfo.io/${clientIp}`, (e, res) => {
     if (!e) {
       if (clientIp === '0.0.0.0') return;
