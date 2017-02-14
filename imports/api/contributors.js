@@ -70,7 +70,6 @@ Meteor.onConnection((connection) => {
       if (res.statusCode !== 200) return;
       const data = res.data;
       clientData = data;
-      console.log(data)
       if (data.country === 'US') isUS = true;
       else isUS = false;
     }

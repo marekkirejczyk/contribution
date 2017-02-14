@@ -28,14 +28,6 @@ Template.contribution.onCreated(() => {
       console.log(err);
     }
   });
-  Meteor.call('isUS', (err, result) => {
-    if(!err) {
-      Session.set('isUS', result);
-      console.log(`Is from US: ${Session.get('isUS')}`);
-    } else {
-      console.log(err);
-    }
-  });
   Meteor.call('clientIp', (err, result) => {
     if (!err) {
       Session.set('clientIp', result);
@@ -171,6 +163,15 @@ Template.contribution.events({
         Toast.info('Invalid contribution address');
         return;
       }
+
+      Meteor.call('isUS', (err, result) => {
+        if(!err) {
+          Session.set('isUS', result);
+          console.log(`Is from US: ${Session.get('isUS')}`);
+        } else {
+          console.log(err);
+        }
+      });
 
       Meteor.call('contributors.insert', address);
       // Sign Hash of Address, i.e. confirming User agreed to terms and conditions.
