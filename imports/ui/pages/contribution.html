@@ -7,20 +7,28 @@
 				<div class="col-md-6 col-sm-6 col-xs-12 text-center hero-text">
 					<h1>Contribution</h1>
           {{#unless isStarted}}
-            <p>Starts February 15th 2017 at 1200 CET</p>
+            <p>Starts February 15th 2017 at 12am CET <br>
+              <a class="white-text" href="https://medium.com/@melonproject/melon-contribution-tutorial-10d0ce85355c#.vvd664n0b" target="_blank"><b>See Contribution Tutorial</b></a>
+            </p>
           {{/unless}}
           {{#if isStarted}}
             {{#unless isTermsAccepted}}
-              <p>Please read carefully and thouroughly.</p>
+              <p>Please read carefully and thouroughly <br>
+                <a class="white-text" href="https://medium.com/@melonproject/melon-contribution-tutorial-10d0ce85355c#.vvd664n0b" target="_blank"><b>See Contribution Tutorial</b></a>
+              </p>
             {{/unless}}
           {{/if}}
           {{#if isTermsAccepted}}
             {{#unless isAllAccepted}}
-              <p>We want you to understand what you're in for</p>
+              <p>We want you to understand what you're in for <br>
+                <a class="white-text" href="https://medium.com/@melonproject/melon-contribution-tutorial-10d0ce85355c#.vvd664n0b" target="_blank"><b>See Contribution Tutorial</b></a>
+              </p>
             {{/unless}}
           {{/if}}
           {{#if isAllAccepted}}
-            <p>The time has come for you to decide</p>
+            <p>The time has come for you to decide <br>
+              <a class="white-text" href="https://medium.com/@melonproject/melon-contribution-tutorial-10d0ce85355c#.vvd664n0b" target="_blank"><b>See Contribution Tutorial</b></a>
+            </p>
           {{/if}}
 				</div>
         <div class="col-md-6 col-sm-6 col-xs-12 hero-summary">
@@ -38,6 +46,10 @@
 				<div class="col-md-9 col-md-offset-1 col-lg-8 col-lg-offset-2">
           <!-- Terms Accepted -->
 					<h2 class="contrib-title">Terms and Conditions</h2>
+          <p><b>Important Notice:</b>
+            If you created a signature before February 14th 11am CET, please generate a new one to participate in the contribution period.
+            If you use an old signature with your transaction the transaction will get rejected by the contribution smart contract and any Ether sent will get returned.
+          </p>
 					<div class="form-checkbox">
 						<p>I hereby confirm to have read and understood the following document:</p>
 						<div class="checkbox">
@@ -131,9 +143,9 @@
 		</div>
 
     {{#if isECParamsSet}}
-      {{#if isClientConnected}}
-        {{#if isMainNetwork}}
-          {{#if isBetweenStartAndEndTime}}
+      {{#if isBetweenStartAndEndTime}}
+        {{#if isClientConnected}}
+          {{#if isMainNetwork}}
             <!-- send fund section -->
             <div class="container mp-contrib-send">
               <div class="row">
@@ -158,57 +170,49 @@
               </div>
             </div>
           {{else}}
-            <div class="container mp-contrib-term">
+            <div class="container mp-contrib-send">
               <div class="row">
                 <div class="col-md-9 col-md-offset-1 col-lg-8 col-lg-offset-2">
                   <div id="results" class="section scrollspy">
-                    <h2 class="contrib-title">Contribution has not started yet. Please wait for {{timeUntillStart}} or disconnect this Dapp from Ethereum and schedule a transaction.</h2>
+                    <h2 class="contrib-title">Use the Ethereum main network to send funds</h2>
                   </div>
                 </div>
               </div>
             </div>
-          {{/if}}
-        {{else}}
-          <div class="container mp-contrib-term">
-            <div class="row">
-              <div class="col-md-9 col-md-offset-1 col-lg-8 col-lg-offset-2">
-                <div id="results" class="section scrollspy">
-                  <h2 class="contrib-title">Use the Ethereum main network to send funds</h2>
-                </div>
-              </div>
-            </div>
-          </div>
-        {{/if}}
-      {{else}}
-        <!-- Transaction Object Section -->
-    		<div class="container mp-contrib-sign">
-    			<div class="row">
-    				<div class="col-md-9 col-md-offset-1 col-lg-8 col-lg-offset-2 col-sm-12 col-xs-12">
-              <div id="results" class="section scrollspy">
-      					<h2 class="contrib-title">Signature</h2>
-      					<p>With these parameters you can contribute to Melon.</p>
-      					<ul>
-      						<li>From:
-                    <strong>{{getContributionAddress}}</strong>
-                  </li>
-      						<li>To:
-                    <strong>0x3BF541f87056D134E0109BE1Be92978b26Cb09e0</strong>
-                  </li>
-      						<li>Value:
-                    <strong>Amount you'd like to contribute</strong>
-                  </li>
-      						<li>Gas:
-                    <strong>100000</strong>
-                  </li>
-      						<li>Data:</li>
-                  <li><textarea rows="4" cols="30">{{getTxData}}</textarea></li>
-      					</ul>
-      					<p>To contribute you can either use Parity, MetaMask, Mist or MyEtherWallet.</p>
-      				</div>
+          {{/if}} <!-- isMainNetwork -->
+        {{/if}} <!-- isClientConnected -->
+      {{/if}} <!-- isBetweenStartAndEndTime -->
+      <!-- Transaction Object Section -->
+  		<div class="container mp-contrib-sign">
+  			<div class="row">
+  				<div class="col-md-9 col-md-offset-1 col-lg-8 col-lg-offset-2 col-sm-12 col-xs-12">
+            <div id="results" class="section scrollspy">
+    					<h2 class="contrib-title">{{#if isBetweenStartAndEndTime}}Signature: Transaction Data{{else}}Signature: Schedule a Transaction{{/if}}</h2>
+              {{#unless isBetweenStartAndEndTime}}
+                <p>Contribution has not started yet. Please wait for <b>{{timeUntillStart}}</b> or <b>schedule a transaction with Parity</b>.</p>
+              {{/unless}}
+    					<p>With these parameters you can contribute to Melon.</p>
+    					<ul>
+    						<li>From:
+                  <strong>{{getContributionAddress}}</strong>
+                </li>
+    						<li>To:
+                  <strong>0x3BF541f87056D134E0109BE1Be92978b26Cb09e0</strong>
+                </li>
+    						<li>Value:
+                  <strong>Amount you'd like to contribute</strong>
+                </li>
+    						<li>Gas:
+                  <strong>100000</strong>
+                </li>
+    						<li>Data (to be included in your transaction):</li>
+                <li><textarea rows="4" cols="30">{{getTxData}}</textarea></li>
+    					</ul>
+    					<p>To contribute you can either use Parity, MetaMask, Mist or MyEtherWallet.</p>
     				</div>
-    			</div>
-    		</div>
-      {{/if}}
-    {{/if}}
+  				</div>
+  			</div>
+  		</div>
+    {{/if}} <!-- isECParamsSet -->
   </section>
 </template>
