@@ -174,7 +174,7 @@
               <div class="row">
                 <div class="col-md-9 col-md-offset-1 col-lg-8 col-lg-offset-2">
                   <div id="results" class="section scrollspy">
-                    <h2 class="contrib-title">Use the Ethereum main network to send funds</h2>
+                    <h2 class="contrib-title">Use the Ethereum main network to send funds directly</h2>
                   </div>
                 </div>
               </div>
@@ -182,37 +182,40 @@
           {{/if}} <!-- isMainNetwork -->
         {{/if}} <!-- isClientConnected -->
       {{/if}} <!-- isBetweenStartAndEndTime -->
-      <!-- Transaction Object Section -->
-  		<div class="container mp-contrib-sign">
-  			<div class="row">
-  				<div class="col-md-9 col-md-offset-1 col-lg-8 col-lg-offset-2 col-sm-12 col-xs-12">
-            <div id="results" class="section scrollspy">
-    					<h2 class="contrib-title">{{#if isBetweenStartAndEndTime}}Signature: Transaction Data{{else}}Signature: Schedule a Transaction{{/if}}</h2>
-              {{#unless isBetweenStartAndEndTime}}
-                <p>Contribution has not started yet. Please wait <b>{{timeUntillStart}}</b> or <b>schedule a transaction with Parity</b>.</p>
-              {{/unless}}
-    					<p>With these parameters you can contribute to Melon.</p>
-    					<ul>
-    						<li>From:
-                  <strong>{{getContributionAddress}}</strong>
-                </li>
-    						<li>To:
-                  <strong>0x3BF541f87056D134E0109BE1Be92978b26Cb09e0</strong>
-                </li>
-    						<li>Value:
-                  <strong>Amount you'd like to contribute</strong>
-                </li>
-    						<li>Gas:
-                  <strong>100000</strong>
-                </li>
-    						<li>Data (to be included in your transaction):</li>
-                <li><textarea rows="4" cols="30">{{getTxData}}</textarea></li>
-    					</ul>
-    					<p>To contribute you can either use Parity, MetaMask, Mist or MyEtherWallet.</p>
+
+      {{#unless isMainNetwork}}
+        <!-- Transaction Object Section -->
+    		<div class="container mp-contrib-sign">
+    			<div class="row">
+    				<div class="col-md-9 col-md-offset-1 col-lg-8 col-lg-offset-2 col-sm-12 col-xs-12">
+              <div id="results" class="section scrollspy">
+      					<h2 class="contrib-title">{{#if isBetweenStartAndEndTime}}Signature: Transaction Data{{else}}Signature: Schedule a Transaction{{/if}}</h2>
+                {{#unless isBetweenStartAndEndTime}}
+                  <p>Contribution has not started yet. Please wait <b>{{timeUntillStart}}</b> or <b>schedule a transaction with Parity</b>.</p>
+                {{/unless}}
+      					<p>With these parameters you can contribute to Melon.</p>
+      					<ul>
+      						<li>From:
+                    <strong>{{getContributionAddress}}</strong>
+                  </li>
+      						<li>To:
+                    <strong>0x3BF541f87056D134E0109BE1Be92978b26Cb09e0</strong>
+                  </li>
+      						<li>Value:
+                    <strong>Amount you'd like to contribute</strong>
+                  </li>
+      						<li>Gas:
+                    <strong>100000</strong>
+                  </li>
+      						<li>Data (to be included in your transaction):</li>
+                  <li><textarea rows="4" cols="30">{{getTxData}}</textarea></li>
+      					</ul>
+      					<p>To contribute you can either use Parity, MetaMask, Mist or MyEtherWallet.</p>
+      				</div>
     				</div>
-  				</div>
-  			</div>
-  		</div>
+    			</div>
+    		</div>
+      {{/unless}} <!-- isMainNetwork -->
     {{/if}} <!-- isECParamsSet -->
   </section>
 </template>
