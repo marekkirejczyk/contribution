@@ -155,9 +155,8 @@ Template.contribution.events({
 
     Meteor.call('isUS', (err, result) => {
       if (!err) {
-        Session.set('isUS', result);
-        console.log(`Is from US: ${Session.get('isUS')}`);
-        if (Session.get('isUS') === false) {
+        console.log(`Is from US: ${result}`);
+        if (result === false) {
           // Get value from form element
           const target = event.target;
           const address = target.contribution_address.value;

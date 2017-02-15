@@ -5,7 +5,7 @@ import { Session } from 'meteor/session';
 import './contribution_summary.html';
 
 
-let ETHER_CAP = 220000; // Expected Value
+let ETHER_CAP = 227000; // Expected Value
 
 String.prototype.toDDHHMMSS = function () {
     let sec_num = parseInt(this, 10); // don't forget the second param
@@ -20,8 +20,8 @@ String.prototype.toDDHHMMSS = function () {
     if (hours   < 10) {hours   = "0"+hours;}
     if (minutes < 10) {minutes = "0"+minutes;}
     if (seconds < 10) {seconds = "0"+seconds;}
-    if (days === 0) return hours +':'+ minutes+':'+ seconds;
-    return days+'d, '+ hours +':'+ minutes+':'+ seconds;
+    if (days === 0) return hours + 'h' + minutes + 'm' + seconds + 's';
+    return days+'d, '+ hours + 'h' + minutes + 'm' + seconds + 's';
 }
 
 
